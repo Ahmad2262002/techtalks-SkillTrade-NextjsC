@@ -1,65 +1,120 @@
-import Image from "next/image";
+import { revalidatePath } from "next/cache";
 
-export default function Home() {
+import { listPublicProposals } from "@/actions/proposals";
+
+async function searchProposalsAction(formData: FormData) {
+  "use server";
+
+  const search = (formData.get("search") as string) || "";
+  const modality = (formData.get("modality") as string) || "";
+
+  // Revalidate the homepage with the new search params encoded in the URL.
+  const params = new URLSearchParams();
+  if (search.trim()) params.set("q", search.trim());
+  if (modality) params.set("modality", modality);
+
+  revalidatePath(`/?${params.toString()}`);
+}
+
+export default async function Home(props: {
+  searchParams?: { q?: string; modality?: string };
+}) {
+  const search = props.searchParams?.q ?? "";
+  const modality = props.searchParams?.modality ?? "";
+
+  const proposals = await listPublicProposals({
+    search: search || undefined,
+    modality: modality || undefined,
+    take: 20,
+  });
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="min-h-screen bg-zinc-50 text-zinc-900">
+      <div className="mx-auto max-w-4xl px-6 py-12 space-y-10">
+        <section className="space-y-4">
+          <h1 className="text-3xl font-semibold tracking-tight">
+            SkillTrade – The Barter Economy for Knowledge
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-zinc-600">
+            Search open swap proposals. This is a simple test UI that calls the
+            real backend actions.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        </section>
+
+        <section className="space-y-4">
+          <form
+            action={searchProposalsAction}
+            className="flex flex-col gap-3 md:flex-row md:items-center"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+            <input
+              name="search"
+              defaultValue={search}
+              placeholder="Search by title (e.g. Guitar, SEO, Spanish)..."
+              className="flex-1 rounded border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+            <select
+              name="modality"
+              defaultValue={modality}
+              className="rounded border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">Any modality</option>
+              <option value="REMOTE">Remote</option>
+              <option value="IN_PERSON">In person</option>
+            </select>
+            <button
+              type="submit"
+              className="rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+            >
+              Search
+            </button>
+          </form>
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="text-xl font-semibold">Open Proposals</h2>
+          {proposals.length === 0 ? (
+            <p className="text-sm text-zinc-500">
+              No open proposals match this filter yet.
+            </p>
+          ) : (
+            <ul className="space-y-3">
+              {proposals.map((p) => (
+                <li
+                  key={p.id}
+                  className="rounded-lg border border-zinc-200 bg-white px-4 py-3 shadow-sm"
+                >
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="space-y-1">
+                      <h3 className="text-sm font-semibold">{p.title}</h3>
+                      <p className="text-xs text-zinc-600 line-clamp-2">
+                        {p.description}
+                      </p>
+                      <p className="text-xs text-zinc-500">
+                        Modality: {p.modality} · Owner: {p.owner?.email}
+                      </p>
+                    </div>
+                    <div className="shrink-0 text-right text-xs text-zinc-500">
+                      <div>Applications: {p._count.applications}</div>
+                      <div>Swaps: {p._count.swaps}</div>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        <section className="border-t border-zinc-200 pt-4 text-xs text-zinc-500">
+          <p>
+            For internal testing: use{" "}
+            <code className="rounded bg-zinc-100 px-1 py-0.5">
+              /dashboard
+            </code>{" "}
+            to exercise create/apply/swap/review actions with the test user.
+          </p>
+        </section>
+      </div>
+    </main>
   );
 }
+
