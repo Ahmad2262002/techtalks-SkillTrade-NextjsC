@@ -1,0 +1,411 @@
+.grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.75rem;
+  }
+}
+
+.card {
+  position: relative;
+  border-radius: 1.1rem;
+  padding: 0.95rem 1rem 0.9rem;
+  background:
+    linear-gradient(140deg, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.96)),
+    radial-gradient(circle at top left, rgba(34, 211, 238, 0.18), transparent 60%);
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  box-shadow:
+    0 18px 40px rgba(15, 23, 42, 0.9),
+    0 0 0 1px rgba(30, 64, 175, 0.25);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  overflow: hidden;
+  transform-origin: center;
+  transition:
+    transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 200ms ease-out,
+    background 200ms ease-out;
+}
+
+.cardDeleting {
+  border-color: rgba(248, 113, 113, 0.7);
+  box-shadow:
+    0 18px 40px rgba(15, 23, 42, 0.9),
+    0 0 0 1px rgba(248, 113, 113, 0.35),
+    0 0 24px rgba(248, 113, 113, 0.25);
+}
+
+.cardRemoving {
+  pointer-events: none;
+  animation: cardExit 220ms ease forwards;
+}
+
+.cardGlow {
+  position: absolute;
+  inset: -40%;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.28), transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(129, 140, 248, 0.28), transparent 60%);
+  mix-blend-mode: soft-light;
+  opacity: 0.7;
+  animation: cardGlowPulse 3s ease-in-out infinite;
+}
+
+@keyframes cardGlowPulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes cardExit {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+}
+
+.cardInner {
+  position: relative;
+  z-index: 1;
+}
+
+.card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow:
+    0 28px 70px rgba(15, 23, 42, 0.95),
+    0 0 0 1px rgba(56, 189, 248, 0.6),
+    0 0 30px rgba(56, 189, 248, 0.3);
+  border-color: rgba(56, 189, 248, 0.85);
+  background:
+    linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.94)),
+    radial-gradient(circle at top left, rgba(34, 211, 238, 0.28), transparent 62%);
+}
+
+.card:hover .cardGlow {
+  opacity: 1;
+  animation-duration: 1.5s;
+}
+
+.titleRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.7rem;
+}
+
+.titleRowRight {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.title {
+  font-size: 0.98rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  flex: 1;
+}
+
+.deleteButton {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: rgba(15, 23, 42, 0.8);
+  color: rgba(239, 68, 68, 0.9);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background 200ms cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+    color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 200ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.deleteButton:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.7);
+  color: #ef4444;
+  transform: scale(1.15) rotate(90deg);
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+}
+
+.deleteButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.deleteSpinner {
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 2px solid rgba(239, 68, 68, 0.25);
+  border-top-color: rgba(239, 68, 68, 0.9);
+  border-radius: 999px;
+  animation: spin 0.65s linear infinite;
+}
+
+.errorText {
+  margin-top: 0.75rem;
+  font-size: 0.78rem;
+  color: #f87171;
+  letter-spacing: 0.01em;
+}
+
+.cardRemoving .errorText {
+  display: none;
+}
+
+.statusPill {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(96, 165, 250, 0.7);
+  background: radial-gradient(circle at top left, rgba(96, 165, 250, 0.8), rgba(37, 99, 235, 0.5));
+  color: #eff6ff;
+  box-shadow: 0 0 0 1px rgba(30, 64, 175, 0.7), 0 8px 20px rgba(30, 64, 175, 0.9);
+  white-space: nowrap;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+  gap: 0.6rem 1.05rem;
+  margin-bottom: 0.6rem;
+}
+
+.fieldLabel {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(148, 163, 184, 0.96);
+  margin-bottom: 0.18rem;
+}
+
+.fieldValue {
+  font-size: 0.86rem;
+  color: #e5e7eb;
+}
+
+.chipsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.32rem;
+  margin-top: 0.15rem;
+}
+
+.chip {
+  font-size: 0.7rem;
+  padding: 0.12rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.8);
+  background: rgba(15, 23, 42, 0.9);
+  color: rgba(209, 213, 219, 0.96);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.35rem;
+  font-size: 0.72rem;
+  color: rgba(148, 163, 184, 0.96);
+}
+
+.metaLeft {
+  display: flex;
+  align-items: center;
+}
+
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 20%, #22c55e, #16a34a);
+  box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.6), 0 0 12px rgba(34, 197, 94, 0.9);
+  margin-right: 0.35rem;
+}
+
+.emptyState {
+  margin-top: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emptyCard {
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  padding: 2rem 1.5rem 2.25rem;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: 
+    radial-gradient(circle at top, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.96)),
+    radial-gradient(circle at 30% 50%, rgba(56, 189, 248, 0.08), transparent 70%);
+  box-shadow:
+    0 20px 50px rgba(15, 23, 42, 0.9),
+    0 0 0 1px rgba(51, 65, 85, 0.9),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  position: relative;
+  overflow: hidden;
+}
+
+.emptyCard::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.1), transparent 70%);
+  animation: emptyGlow 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes emptyGlow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+
+.emptyTitle {
+  margin: 0 0 0.6rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  position: relative;
+  z-index: 1;
+}
+
+.emptyText {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(209, 213, 219, 0.75);
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+}
+
+.cardEnter {
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  filter: blur(3px);
+  animation: cardEnter 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+.emptyEnter {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: emptyEnter 0.42s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes cardEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    filter: blur(3px);
+  }
+  40% {
+    opacity: 0.7;
+    transform: translateY(5px) scale(0.98);
+    filter: blur(2px);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-3px) scale(1.02);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes emptyEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .card {
+    padding: 0.85rem 0.85rem 0.8rem;
+  }
+
+  .fields {
+    grid-template-columns: 1fr;
+  }
+
+  .emptyCard {
+    padding: 1.5rem 1.25rem 1.75rem;
+  }
+
+  .emptyTitle {
+    font-size: 1.05rem;
+  }
+
+  .emptyText {
+    font-size: 0.85rem;
+  }
+}
+
+
+
