@@ -18,8 +18,17 @@ import { deleteProposal } from "@/actions/proposal-actions";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2, Trash2, Send, Zap, MapPin } from "lucide-react";
 
-export function ProposalDetailsModal({ proposal, isOwner }: { proposal: any, isOwner: boolean }) {
-    const [isOpen, setIsOpen] = useState(false);
+export function ProposalDetailsModal({ 
+    proposal, 
+    isOwner,
+    isOpen,
+    onOpenChange 
+}: { 
+    proposal: any, 
+    isOwner: boolean,
+    isOpen: boolean,
+    onOpenChange: (open: boolean) => void 
+}) {
     const [isApplying, setIsApplying] = useState(false);
     const [pitch, setPitch] = useState("");
     const [loading, setLoading] = useState(false);
@@ -31,7 +40,7 @@ export function ProposalDetailsModal({ proposal, isOwner }: { proposal: any, isO
         try {
             await createApplication({ proposalId: proposal.id, pitchMessage: pitch });
             toast({ title: "Application Sent!", description: "Good luck!" });
-            setIsOpen(false);
+            onOpenChange(false);
             setPitch("");
             setIsApplying(false);
         } catch (error: any) {
@@ -48,7 +57,7 @@ export function ProposalDetailsModal({ proposal, isOwner }: { proposal: any, isO
             const result = await deleteProposal(proposal.id);
             if (result.success) {
                 toast({ title: "Deleted", description: "Proposal deleted." });
-                setIsOpen(false);
+                onOpenChange(false);
             } else {
                 toast({ variant: "destructive", title: "Error", description: result.message });
             }
@@ -64,7 +73,7 @@ export function ProposalDetailsModal({ proposal, isOwner }: { proposal: any, isO
     const modalityIcon = proposal.modality === "REMOTE" ? <Zap className="w-4 h-4" /> : <MapPin className="w-4 h-4" />;
 
     return (
-        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <Dialog open={isOpen} onOpenChange={onOpenChange}>
             <DialogTrigger asChild>
                 <Button variant="outline" className="flex-1">Details</Button>
             </DialogTrigger>

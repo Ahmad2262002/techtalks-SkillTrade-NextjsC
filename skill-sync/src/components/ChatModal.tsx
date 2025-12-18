@@ -14,6 +14,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { MessageSquare, Send } from "lucide-react";
 import { getSwapMessages, sendMessage } from "@/actions/messages";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
 
 interface Message {
     id: string;
@@ -25,7 +26,17 @@ interface Message {
     };
 }
 
-export function ChatModal({ swapId, currentUserId, otherUserName }: { swapId: string, currentUserId: string, otherUserName: string }) {
+export function ChatModal({ 
+    swapId, 
+    currentUserId, 
+    otherUserName,
+    triggerClassName 
+}: { 
+    swapId: string, 
+    currentUserId: string, 
+    otherUserName: string,
+    triggerClassName?: string 
+}) {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([]);
     const [newMessage, setNewMessage] = useState("");
@@ -74,7 +85,7 @@ export function ChatModal({ swapId, currentUserId, otherUserName }: { swapId: st
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2">
+                <Button variant="outline" size="sm" className={cn("gap-2", triggerClassName)}>
                     <MessageSquare className="w-4 h-4" /> Chat
                 </Button>
             </DialogTrigger>

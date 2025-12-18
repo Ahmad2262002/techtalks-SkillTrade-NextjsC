@@ -91,4 +91,24 @@ export async function updateSwapStatus(params: {
   });
 }
 
+// --- NEW FUNCTION ADDED ---
+export async function findActiveSwapBetweenUsers(otherUserId: string) {
+  const currentUserId = await getCurrentUserId();
+  if (!currentUserId) return null; // Not logged in
 
+  const swap = await prisma.swap.findFirst({
+    where: {
+      status: "ACTIVE",
+      // Find a swap where the two users are either (teacher, student) or (student, teacher)
+      OR: [
+        { teacherId: currentUserId, studentId: otherUserId },
+        { teacherId: otherUserId, studentId: currentUserId },
+      ],
+    },
+    select: {
+      id: true, // We only need the ID for the chat modal
+    },
+  });
+
+  return swap;
+}

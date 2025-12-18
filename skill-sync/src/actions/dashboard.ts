@@ -8,20 +8,23 @@ export async function getDashboardOverview() {
   const userId = await getCurrentUserId();
   if (!userId) throw new Error("Not authenticated");
 
-  const [user, proposals, applications, sentApplications, swaps, reputation] = await Promise.all([
-    // 1. User Profile
-    prisma.user.findUnique({
-      where: { id: userId },
-      include: {
-        skills: {
-          where: { isVisible: true },
-          include: {
-            skill: true,
-          },
+  // 1. User Profile (Critical - fetch first)
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    include: {
+      skills: {
+        where: { isVisible: true },
+        include: {
+          skill: true,
         },
       },
-    }),
-    // 2. My Proposals
+    },
+  });
+
+  if (!user) throw new Error("User not found");
+
+  // 2. Main Lists (Batch 1)
+  const [proposals, applications] = await Promise.all([
     prisma.proposal.findMany({
       where: { ownerId: userId },
       include: {
@@ -36,7 +39,6 @@ export async function getDashboardOverview() {
       },
       orderBy: { createdAt: "desc" },
     }),
-    // 3. Incoming Applications (received)
     prisma.application.findMany({
       where: {
         proposal: {
@@ -65,12 +67,16 @@ export async function getDashboardOverview() {
       orderBy: { createdAt: "desc" },
       take: 20,
     }),
-    // 4. Outgoing Applications (sent) - needed to disable "Apply" button
+  ]);
+
+  // 3. Secondary Lists (Batch 2)
+  const [sentApplications, swaps] = await Promise.all([
+    // Outgoing Applications (sent) - needed to disable "Apply" button
     prisma.application.findMany({
       where: { applicantId: userId },
       select: { proposalId: true },
     }),
-    // 5. Swaps
+    // Swaps
     prisma.swap.findMany({
       where: {
         OR: [{ teacherId: userId }, { studentId: userId }],
@@ -80,6 +86,7 @@ export async function getDashboardOverview() {
           include: {
             offeredSkills: true,
             neededSkills: true,
+
           },
         },
         teacher: true,
@@ -88,9 +95,10 @@ export async function getDashboardOverview() {
       orderBy: { startedAt: "desc" },
       take: 10,
     }),
-    // 6. Reputation
-    getReputationStats(userId),
   ]);
+
+  // 4. Reputation (Batch 3 - has 2 internal queries)
+  const reputation = await getReputationStats(userId);
 
   return {
     user,

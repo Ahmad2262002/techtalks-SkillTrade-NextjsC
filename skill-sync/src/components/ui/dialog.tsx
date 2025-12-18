@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { createPortal } from "react-dom"
 import { X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -46,11 +47,6 @@ const DialogTrigger = React.forwardRef<
 >(({ className, onClick, children, asChild, ...props }, ref) => {
     const { onOpenChange } = React.useContext(DialogContext)
 
-    // If asChild is true, we should clone the child and add the onClick handler
-    // For simplicity in this mock, if asChild is true, we just render the child and hope it handles clicks,
-    // or we wrap it. But standard Radix asChild merges props.
-    // Here we'll just wrap it in a span if asChild is true to capture the click, or just render a button if not.
-
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         onClick?.(e)
         onOpenChange(true)
@@ -84,9 +80,11 @@ const DialogContent = React.forwardRef<
     React.HTMLAttributes<HTMLDivElement>
 >(({ className, children, ...props }, ref) => {
     const { open, onOpenChange } = React.useContext(DialogContext)
+    const [mounted, setMounted] = React.useState(false)
 
     // Prevent body scroll when modal is open
     React.useEffect(() => {
+        setMounted(true)
         if (open) {
             const scrollY = window.scrollY
             document.body.style.position = 'fixed'
@@ -102,9 +100,9 @@ const DialogContent = React.forwardRef<
         }
     }, [open])
 
-    if (!open) return null
+    if (!open || !mounted) return null
 
-    return (
+    return createPortal(
         <div
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 transition-opacity duration-200"
             onClick={() => onOpenChange(false)}
@@ -126,7 +124,8 @@ const DialogContent = React.forwardRef<
                 </div>
                 {children}
             </div>
-        </div>
+        </div>,
+        document.body
     )
 })
 DialogContent.displayName = "DialogContent"

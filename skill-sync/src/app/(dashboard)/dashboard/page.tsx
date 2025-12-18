@@ -82,23 +82,7 @@ export default async function DashboardPage({
   const myProposals = overview.proposals;
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 dark:from-background dark:via-background dark:to-muted/10 transition-colors duration-300">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
-        <div className="mb-8">
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 dark:from-indigo-600 dark:via-purple-600 dark:to-pink-600 p-8 text-white shadow-2xl">
-            <div className="absolute inset-0 bg-black/10 dark:bg-white/5"></div>
-            <div className="relative z-10">
-              <h2 className="text-3xl sm:text-4xl font-extrabold mb-2">
-                Welcome back, {overview.user?.name || "SkillSwapper"}! 👋
-              </h2>
-              <p className="text-indigo-100 dark:text-indigo-200 text-lg">
-                {overview.user?.bio ||
-                  "Ready to swap skills and grow together? Let's get started!"}
-              </p>
-            </div>
-          </div>
-        </div>
-
+    <main>
         <DashboardClientContent
           overview={overview}
           myProposals={myProposals}
@@ -109,7 +93,6 @@ export default async function DashboardPage({
           swaps={overview.swaps}
           applications={overview.applications}
         />
-      </div>
     </main>
   );
 }

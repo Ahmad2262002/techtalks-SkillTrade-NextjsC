@@ -1,9 +1,9 @@
-
 "use server";
 
 import { createClient } from "@/lib/supabase";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
+import { cache } from "react";
 
 export async function signOut() {
     const supabase = await createClient();
@@ -11,7 +11,7 @@ export async function signOut() {
     redirect("/login");
 }
 
-export async function getCurrentUserId(): Promise<string | null> {
+export const getCurrentUserId = cache(async (): Promise<string | null> => {
   const supabase = await createClient();
   const {
     data: { user },
@@ -34,4 +34,4 @@ export async function getCurrentUserId(): Promise<string | null> {
   });
 
   return dbUser.id;
-}
+});

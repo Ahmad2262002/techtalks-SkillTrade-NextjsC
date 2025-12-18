@@ -1,17 +1,17 @@
-
 import Navbar from "@/components/landing/Navbar";
 import Hero from "@/components/landing/Hero";
 import Features from "@/components/landing/Features";
 import Footer from "@/components/landing/Footer";
-import { getCurrentUserId } from "@/lib/auth";
+import { getCurrentUserId } from "@/actions/auth";
+import styles from "./Landing.module.css";
 
 export default async function Home() {
   const userId = await getCurrentUserId();
 
   return (
-    <div className="min-h-screen flex flex-col font-sans bg-[#07101a] text-white">
+    <div className={styles.pageWrapper}>
       <Navbar userId={userId} />
-      <main className="flex-grow">
+      <main className={styles.mainContent}>
         <Hero />
         <Features />
       </main>
