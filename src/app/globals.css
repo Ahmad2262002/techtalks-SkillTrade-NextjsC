@@ -51,6 +51,43 @@
   --ring: 222.2 84% 4.9%;
 }
 
+/* Accent Overrides */
+.accent-sunset {
+  --primary: 20 90% 60%;
+  --ring: 20 90% 60%;
+}
+
+.accent-emerald {
+  --primary: 160 84% 39%;
+  --ring: 160 84% 39%;
+}
+
+.accent-ocean {
+  --primary: 199 89% 48%;
+  --ring: 199 89% 48%;
+}
+
+.accent-midnight {
+  --primary: 262 83% 58%;
+  --ring: 262 83% 58%;
+}
+
+.light.accent-sunset {
+  --primary: 20 90% 40%;
+}
+
+.light.accent-emerald {
+  --primary: 160 84% 30%;
+}
+
+.light.accent-ocean {
+  --primary: 199 89% 40%;
+}
+
+.light.accent-midnight {
+  --primary: 262 83% 50%;
+}
+
 @theme inline {
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
@@ -71,10 +108,14 @@
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
-  
+
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 @layer base {
@@ -82,8 +123,118 @@
     border-color: var(--color-border);
     outline-color: var(--color-ring);
   }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes pulse-soft {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.light .glass {
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.delay-75 {
+  animation-delay: 75ms;
+}
+
+.delay-150 {
+  animation-delay: 150ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.delay-500 {
+  animation-delay: 500ms;
+}
+
+.text-gradient {
+  @apply text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-sky-500;
 }

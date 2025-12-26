@@ -35,12 +35,11 @@ export default function NavSearchButton() {
       <div className="flex items-center gap-4">
         <button
           onClick={() => setOpen(true)}
-          className="group relative inline-flex items-center justify-center overflow-hidden rounded-full border border-sky-500/40 bg-gradient-to-r from-sky-500 via-cyan-400 to-emerald-400 px-6 py-2.5 text-sm font-bold text-slate-950 shadow-[0_0_20px_rgba(56,189,248,0.4)] transition-all hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(56,189,248,0.6)] cursor-pointer"
+          className="group relative inline-flex items-center justify-center overflow-hidden rounded-full border border-primary/40 bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground shadow-2xl shadow-primary/40 transition-all hover:scale-[1.02] hover:shadow-primary/60 cursor-pointer"
           aria-haspopup="dialog"
           aria-expanded={open}
         >
           <SearchIcon className=" h-5 w-5" />
-          
         </button>
       </div>
 

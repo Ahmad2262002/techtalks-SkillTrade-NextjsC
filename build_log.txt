@@ -1,0 +1,499 @@
+
+> skill-sync@0.1.0 build
+> next build
+
+   ▲ Next.js 16.0.10 (Turbopack)
+   - Environments: .env.local, .env
+
+   Creating an optimized production build ...
+
+> Build error occurred
+Error: Turbopack build failed with 30 errors:
+./src/actions/auth.ts:1:1
+Parsing ecmascript source code failed
+[0m[31m[1m>[22m[39m[90m 1 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m[33m:[39msrc[33m/[39mactions[33m/[39mauth[33m.[39mts
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [32m"use server"[39m[33m;[39m
+ [90m 4 |[39m[0m
+
+Merge conflict marker encountered.
+
+Import trace:
+  Server Component:
+    ./src/actions/auth.ts
+    ./src/app/(dashboard)/dashboard/page.tsx
+
+
+./src/actions/auth.ts:39:1
+Parsing ecmascript source code failed
+[0m [90m 37 |[39m   [36mreturn[39m dbUser[33m.[39mid[33m;[39m
+ [90m 38 |[39m }
+[31m[1m>[22m[39m[90m 39 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 40 |[39m [32m"use server"[39m[33m;[39m
+ [90m 41 |[39m
+ [90m 42 |[39m [36mimport[39m { createClient } [36mfrom[39m [32m"@/lib/supabase"[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import trace:
+  Server Component:
+    ./src/actions/auth.ts
+    ./src/app/(dashboard)/dashboard/page.tsx
+
+
+./src/actions/auth.ts:77:1
+Parsing ecmascript source code failed
+[0m [90m 75 |[39m   [36mreturn[39m dbUser[33m.[39mid[33m;[39m
+ [90m 76 |[39m })[33m;[39m
+[31m[1m>[22m[39m[90m 77 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m51[39mfea53e9c3c640ee6fd7ebf5d71800b1e27a859[33m:[39mskill[33m-[39msync[33m/[39msrc[33m/[39mactions[33m/[39mauth[33m.[39mts
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 78 |[39m[0m
+
+Merge conflict marker encountered.
+
+Import trace:
+  Server Component:
+    ./src/actions/auth.ts
+    ./src/app/(dashboard)/dashboard/page.tsx
+
+
+./src/actions/dashboard.ts:1:1
+Parsing ecmascript source code failed
+[0m[31m[1m>[22m[39m[90m 1 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m[33m:[39msrc[33m/[39mactions[33m/[39mdashboard[33m.[39mts
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [32m'use server'[39m[33m;[39m
+ [90m 3 |[39m
+ [90m 4 |[39m [36mimport[39m { prisma } [36mfrom[39m [32m"@/lib/prisma"[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import trace:
+  Server Component:
+    ./src/actions/dashboard.ts
+    ./src/app/(dashboard)/dashboard/page.tsx
+
+
+./src/actions/dashboard.ts:112:1
+Parsing ecmascript source code failed
+[0m [90m 110 |[39m     reputation[33m,[39m
+ [90m 111 |[39m   }[33m;[39m
+[31m[1m>[22m[39m[90m 112 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m     |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 113 |[39m [32m'use server'[39m[33m;[39m
+ [90m 114 |[39m
+ [90m 115 |[39m [36mimport[39m { prisma } [36mfrom[39m [32m"@/lib/prisma"[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import trace:
+  Server Component:
+    ./src/actions/dashboard.ts
+    ./src/app/(dashboard)/dashboard/page.tsx
+
+
+./src/app/(dashboard)/dashboard/client.tsx:1:1
+Parsing ecmascript source code failed
+[0m[31m[1m>[22m[39m[90m 1 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m[33m:[39msrc[33m/[39mapp[33m/[39m(dashboard)[33m/[39mdashboard[33m/[39mclient[33m.[39mtsx
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [32m"use client"[39m[33m;[39m
+ [90m 3 |[39m
+ [90m 4 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m"react"[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import trace:
+  Server Component:
+    ./src/app/(dashboard)/dashboard/client.tsx
+    ./src/app/(dashboard)/dashboard/page.tsx
+
+
+./src/app/(dashboard)/dashboard/client.tsx:461:1
+Parsing ecmascript source code failed
+[0m [90m 459 |[39m   )[33m;[39m
+ [90m 460 |[39m }
+[31m[1m>[22m[39m[90m 461 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m     |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 462 |[39m [32m"use client"[39m[33m;[39m
+ [90m 463 |[39m
+ [90m 464 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m"react"[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import trace:
+  Server Component:
+    ./src/app/(dashboard)/dashboard/client.tsx
+    ./src/app/(dashboard)/dashboard/page.tsx
+
+
+./src/app/(dashboard)/dashboard/client.tsx:811:1
+Parsing ecmascript source code failed
+[0m [90m 809 |[39m   [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m
+ [90m 810 |[39m )[33m;[39m
+[31m[1m>[22m[39m[90m 811 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m51[39mfea53e9c3c640ee6fd7ebf5d71800b1e27a859[33m:[39mskill[33m-[39msync[33m/[39msrc[33m/[39mapp[33m/[39m(dashboard)[33m/[39mdashboard[33m/[39mclient[33m.[39mtsx
+ [90m     |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 812 |[39m[0m
+
+Merge conflict marker encountered.
+
+Import trace:
+  Server Component:
+    ./src/app/(dashboard)/dashboard/client.tsx
+    ./src/app/(dashboard)/dashboard/page.tsx
+
+
+./src/app/layout.tsx:27:1
+Parsing ecmascript source code failed
+[0m [90m 25 |[39m }[33m>[39m) {
+ [90m 26 |[39m   [36mreturn[39m (
+[31m[1m>[22m[39m[90m 27 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m[33m:[39msrc[33m/[39mapp[33m/[39mlayout[33m.[39mtsx
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 28 |[39m     [33m<[39m[33mhtml[39m lang[33m=[39m[32m"en"[39m suppressHydrationWarning[33m>[39m
+ [90m 29 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m 30 |[39m     [33m<[39m[33mhtml[39m lang[33m=[39m[32m"en"[39m className[33m=[39m[32m"dark"[39m[33m>[39m[0m
+
+Merge conflict marker encountered.
+
+
+./src/app/layout.tsx:31:1
+Parsing ecmascript source code failed
+[0m [90m 29 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m 30 |[39m     [33m<[39m[33mhtml[39m lang[33m=[39m[32m"en"[39m className[33m=[39m[32m"dark"[39m[33m>[39m
+[31m[1m>[22m[39m[90m 31 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m51[39mfea53e9c3c640ee6fd7ebf5d71800b1e27a859[33m:[39mskill[33m-[39msync[33m/[39msrc[33m/[39mapp[33m/[39mlayout[33m.[39mtsx
+ [90m    |[39m [31m[1m^[22m[39m
+ [90m 32 |[39m       [33m<[39m[33mbody[39m
+ [90m 33 |[39m         className[33m=[39m{[32m`${geistSans.variable} ${geistMono.variable} antialiased`[39m}
+ [90m 34 |[39m       [33m>[39m[0m
+
+Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+
+./src/app/layout.tsx:31:2
+Parsing ecmascript source code failed
+[0m [90m 29 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m 30 |[39m     [33m<[39m[33mhtml[39m lang[33m=[39m[32m"en"[39m className[33m=[39m[32m"dark"[39m[33m>[39m
+[31m[1m>[22m[39m[90m 31 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m51[39mfea53e9c3c640ee6fd7ebf5d71800b1e27a859[33m:[39mskill[33m-[39msync[33m/[39msrc[33m/[39mapp[33m/[39mlayout[33m.[39mtsx
+ [90m    |[39m  [31m[1m^[22m[39m
+ [90m 32 |[39m       [33m<[39m[33mbody[39m
+ [90m 33 |[39m         className[33m=[39m{[32m`${geistSans.variable} ${geistMono.variable} antialiased`[39m}
+ [90m 34 |[39m       [33m>[39m[0m
+
+Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+
+./src/app/layout.tsx:31:3
+Parsing ecmascript source code failed
+[0m [90m 29 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m 30 |[39m     [33m<[39m[33mhtml[39m lang[33m=[39m[32m"en"[39m className[33m=[39m[32m"dark"[39m[33m>[39m
+[31m[1m>[22m[39m[90m 31 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m51[39mfea53e9c3c640ee6fd7ebf5d71800b1e27a859[33m:[39mskill[33m-[39msync[33m/[39msrc[33m/[39mapp[33m/[39mlayout[33m.[39mtsx
+ [90m    |[39m   [31m[1m^[22m[39m
+ [90m 32 |[39m       [33m<[39m[33mbody[39m
+ [90m 33 |[39m         className[33m=[39m{[32m`${geistSans.variable} ${geistMono.variable} antialiased`[39m}
+ [90m 34 |[39m       [33m>[39m[0m
+
+Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+
+./src/app/layout.tsx:31:4
+Parsing ecmascript source code failed
+[0m [90m 29 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m 30 |[39m     [33m<[39m[33mhtml[39m lang[33m=[39m[32m"en"[39m className[33m=[39m[32m"dark"[39m[33m>[39m
+[31m[1m>[22m[39m[90m 31 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m51[39mfea53e9c3c640ee6fd7ebf5d71800b1e27a859[33m:[39mskill[33m-[39msync[33m/[39msrc[33m/[39mapp[33m/[39mlayout[33m.[39mtsx
+ [90m    |[39m    [31m[1m^[22m[39m
+ [90m 32 |[39m       [33m<[39m[33mbody[39m
+ [90m 33 |[39m         className[33m=[39m{[32m`${geistSans.variable} ${geistMono.variable} antialiased`[39m}
+ [90m 34 |[39m       [33m>[39m[0m
+
+Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+
+./src/app/layout.tsx:31:5
+Parsing ecmascript source code failed
+[0m [90m 29 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m 30 |[39m     [33m<[39m[33mhtml[39m lang[33m=[39m[32m"en"[39m className[33m=[39m[32m"dark"[39m[33m>[39m
+[31m[1m>[22m[39m[90m 31 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m51[39mfea53e9c3c640ee6fd7ebf5d71800b1e27a859[33m:[39mskill[33m-[39msync[33m/[39msrc[33m/[39mapp[33m/[39mlayout[33m.[39mtsx
+ [90m    |[39m     [31m[1m^[22m[39m
+ [90m 32 |[39m       [33m<[39m[33mbody[39m
+ [90m 33 |[39m         className[33m=[39m{[32m`${geistSans.variable} ${geistMono.variable} antialiased`[39m}
+ [90m 34 |[39m       [33m>[39m[0m
+
+Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+
+./src/app/layout.tsx:31:6
+Parsing ecmascript source code failed
+[0m [90m 29 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m 30 |[39m     [33m<[39m[33mhtml[39m lang[33m=[39m[32m"en"[39m className[33m=[39m[32m"dark"[39m[33m>[39m
+[31m[1m>[22m[39m[90m 31 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m51[39mfea53e9c3c640ee6fd7ebf5d71800b1e27a859[33m:[39mskill[33m-[39msync[33m/[39msrc[33m/[39mapp[33m/[39mlayout[33m.[39mtsx
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 32 |[39m       [33m<[39m[33mbody[39m
+ [90m 33 |[39m         className[33m=[39m{[32m`${geistSans.variable} ${geistMono.variable} antialiased`[39m}
+ [90m 34 |[39m       [33m>[39m[0m
+
+Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+
+./src/app/layout.tsx:31:7
+Parsing ecmascript source code failed
+[0m [90m 29 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m 30 |[39m     [33m<[39m[33mhtml[39m lang[33m=[39m[32m"en"[39m className[33m=[39m[32m"dark"[39m[33m>[39m
+[31m[1m>[22m[39m[90m 31 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m51[39mfea53e9c3c640ee6fd7ebf5d71800b1e27a859[33m:[39mskill[33m-[39msync[33m/[39msrc[33m/[39mapp[33m/[39mlayout[33m.[39mtsx
+ [90m    |[39m       [31m[1m^[22m[39m
+ [90m 32 |[39m       [33m<[39m[33mbody[39m
+ [90m 33 |[39m         className[33m=[39m{[32m`${geistSans.variable} ${geistMono.variable} antialiased`[39m}
+ [90m 34 |[39m       [33m>[39m[0m
+
+Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+
+./src/app/layout.tsx:44:1
+Parsing ecmascript source code failed
+[0m [90m 42 |[39m     [33m<[39m[33m/[39m[33mhtml[39m[33m>[39m
+ [90m 43 |[39m   )[33m;[39m
+[31m[1m>[22m[39m[90m 44 |[39m }
+ [90m    |[39m [31m[1m^[22m[39m[0m
+
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+
+
+./src/app/profile/[userid]/page.tsx:1:1
+Parsing ecmascript source code failed
+[0m[31m[1m>[22m[39m[90m 1 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m[33m:[39msrc[33m/[39mapp[35m/profile/[39m[userid][33m/[39mpage[33m.[39mtsx
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [36mimport[39m { getCurrentUserId } [36mfrom[39m [32m"@/actions/auth"[39m[33m;[39m
+ [90m 3 |[39m [36mimport[39m [33mProfileClientContent[39m [36mfrom[39m [32m"./client"[39m[33m;[39m
+ [90m 4 |[39m [36mimport[39m { getUserProfile } [36mfrom[39m [32m"@/actions/profile"[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+
+./src/app/profile/[userid]/page.tsx:56:1
+Parsing ecmascript source code failed
+[0m [90m 54 |[39m         [33m<[39m[33m/[39m[33mmain[39m[33m>[39m
+ [90m 55 |[39m     )[33m;[39m
+[31m[1m>[22m[39m[90m 56 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 57 |[39m [36mimport[39m { getCurrentUserId } [36mfrom[39m [32m"@/actions/auth"[39m[33m;[39m
+ [90m 58 |[39m [36mimport[39m [33mProfileClientContent[39m [36mfrom[39m [32m"./client"[39m[33m;[39m
+ [90m 59 |[39m [36mimport[39m { getUserProfile } [36mfrom[39m [32m"@/actions/profile"[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+
+./src/components/features/search/SearchSection.tsx:1:1
+Parsing ecmascript source code failed
+[0m[31m[1m>[22m[39m[90m 1 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m[33m:[39msrc[33m/[39mcomponents[33m/[39mfeatures[33m/[39msearch[33m/[39m[33mSearchSection[39m[33m.[39mtsx
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [32m"use client"[39m[33m;[39m
+ [90m 3 |[39m
+ [90m 4 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState[33m,[39m useRef[33m,[39m useEffect } [36mfrom[39m [32m"react"[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import trace:
+  Server Component:
+    ./src/components/features/search/SearchSection.tsx
+    ./src/app/browse/page.tsx
+
+
+./src/components/features/search/SearchSection.tsx:244:1
+Parsing ecmascript source code failed
+[0m [90m 242 |[39m   [36mif[39m (filter [33m===[39m [32m"This Month"[39m) [36mreturn[39m diff [33m<=[39m [35m30[39m[33m;[39m
+ [90m 243 |[39m   [36mreturn[39m [36mtrue[39m[33m;[39m
+[31m[1m>[22m[39m[90m 244 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m     |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 245 |[39m
+ [90m 246 |[39m [32m"use client"[39m[33m;[39m
+ [90m 247 |[39m[0m
+
+Merge conflict marker encountered.
+
+Import trace:
+  Server Component:
+    ./src/components/features/search/SearchSection.tsx
+    ./src/app/browse/page.tsx
+
+
+./src/components/landing/Features.tsx:1:1
+Parsing ecmascript source code failed
+[0m[31m[1m>[22m[39m[90m 1 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m[33m:[39msrc[33m/[39mcomponents[33m/[39mlanding[33m/[39m[33mFeatures[39m[33m.[39mtsx
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mexport[39m [36mdefault[39m [36mfunction[39m [33mFeatures[39m() {
+ [90m 4 |[39m   [36mconst[39m steps [33m=[39m [[0m
+
+Merge conflict marker encountered.
+
+Import trace:
+  Server Component:
+    ./src/components/landing/Features.tsx
+    ./src/app/(public)/page.tsx
+
+
+./src/components/landing/Features.tsx:49:1
+Parsing ecmascript source code failed
+[0m [90m 47 |[39m     [33m<[39m[33m/[39m[33msection[39m[33m>[39m
+ [90m 48 |[39m   )[33m;[39m
+[31m[1m>[22m[39m[90m 49 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 50 |[39m [36mimport[39m styles [36mfrom[39m [32m'@/app/(public)/Landing.module.css'[39m[33m;[39m
+ [90m 51 |[39m
+ [90m 52 |[39m [36mexport[39m [36mdefault[39m [36mfunction[39m [33mFeatures[39m() {[0m
+
+Merge conflict marker encountered.
+
+Import trace:
+  Server Component:
+    ./src/components/landing/Features.tsx
+    ./src/app/(public)/page.tsx
+
+
+./src/components/landing/Footer.tsx:1:1
+Parsing ecmascript source code failed
+[0m[31m[1m>[22m[39m[90m 1 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m[33m:[39msrc[33m/[39mcomponents[33m/[39mlanding[33m/[39m[33mFooter[39m[33m.[39mtsx
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m [33mReact[39m [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m 4 |[39m[0m
+
+Merge conflict marker encountered.
+
+Import trace:
+  Server Component:
+    ./src/components/landing/Footer.tsx
+    ./src/app/(public)/page.tsx
+
+
+./src/components/landing/Footer.tsx:21:1
+Parsing ecmascript source code failed
+[0m [90m 19 |[39m     [33m<[39m[33m/[39m[33mfooter[39m[33m>[39m
+ [90m 20 |[39m   )[33m;[39m
+[31m[1m>[22m[39m[90m 21 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 22 |[39m [36mimport[39m [33mReact[39m [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m 23 |[39m [36mimport[39m styles [36mfrom[39m [32m'@/app/(public)/Landing.module.css'[39m[33m;[39m
+ [90m 24 |[39m [36mimport[39m [33mLink[39m [36mfrom[39m [32m'next/link'[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import trace:
+  Server Component:
+    ./src/components/landing/Footer.tsx
+    ./src/app/(public)/page.tsx
+
+
+./src/components/landing/Hero.tsx:1:1
+Parsing ecmascript source code failed
+[0m[31m[1m>[22m[39m[90m 1 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m[33m:[39msrc[33m/[39mcomponents[33m/[39mlanding[33m/[39m[33mHero[39m[33m.[39mtsx
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m [33mLink[39m [36mfrom[39m [32m"next/link"[39m[33m;[39m
+ [90m 4 |[39m[0m
+
+Merge conflict marker encountered.
+
+Import trace:
+  Server Component:
+    ./src/components/landing/Hero.tsx
+    ./src/app/(public)/page.tsx
+
+
+./src/components/landing/Hero.tsx:48:1
+Parsing ecmascript source code failed
+[0m [90m 46 |[39m     [33m<[39m[33m/[39m[33msection[39m[33m>[39m
+ [90m 47 |[39m   )[33m;[39m
+[31m[1m>[22m[39m[90m 48 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 49 |[39m [36mimport[39m [33mLink[39m [36mfrom[39m [32m"next/link"[39m[33m;[39m
+ [90m 50 |[39m [36mimport[39m { [33mButton[39m } [36mfrom[39m [32m"@/components/ui/button"[39m[33m;[39m
+ [90m 51 |[39m [36mimport[39m styles [36mfrom[39m [32m"@/app/(public)/Landing.module.css"[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import trace:
+  Server Component:
+    ./src/components/landing/Hero.tsx
+    ./src/app/(public)/page.tsx
+
+
+./src/components/landing/Navbar.tsx:1:1
+Parsing ecmascript source code failed
+[0m[31m[1m>[22m[39m[90m 1 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m[33m:[39msrc[33m/[39mcomponents[33m/[39mlanding[33m/[39m[33mNavbar[39m[33m.[39mtsx
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m [33mLink[39m [36mfrom[39m [32m'next/link'[39m[33m;[39m
+ [90m 4 |[39m [36mimport[39m { [33mButton[39m } [36mfrom[39m [32m'@/components/ui/button'[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import trace:
+  Server Component:
+    ./src/components/landing/Navbar.tsx
+    ./src/app/(public)/page.tsx
+
+
+./src/components/landing/Navbar.tsx:59:1
+Parsing ecmascript source code failed
+[0m [90m 57 |[39m }[33m;[39m
+ [90m 58 |[39m
+[31m[1m>[22m[39m[90m 59 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 60 |[39m [32m"use client"[39m[33m;[39m
+ [90m 61 |[39m
+ [90m 62 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m'react'[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import trace:
+  Server Component:
+    ./src/components/landing/Navbar.tsx
+    ./src/app/(public)/page.tsx
+
+
+./src/components/landing/Navbar.tsx:124:1
+Parsing ecmascript source code failed
+[0m [90m 122 |[39m }[33m;[39m
+ [90m 123 |[39m
+[31m[1m>[22m[39m[90m 124 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m51[39mfea53e9c3c640ee6fd7ebf5d71800b1e27a859[33m:[39mskill[33m-[39msync[33m/[39msrc[33m/[39mcomponents[33m/[39mlanding[33m/[39m[33mNavbar[39m[33m.[39mtsx
+ [90m     |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 125 |[39m [36mexport[39m [36mdefault[39m [33mNavbar[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import trace:
+  Server Component:
+    ./src/components/landing/Navbar.tsx
+    ./src/app/(public)/page.tsx
+
+
+    at <unknown> (./src/actions/auth.ts:1:1)
+    at <unknown> (./src/actions/auth.ts:39:1)
+    at <unknown> (./src/actions/auth.ts:77:1)
+    at <unknown> (./src/actions/dashboard.ts:1:1)
+    at <unknown> (./src/actions/dashboard.ts:112:1)
+    at <unknown> (./src/app/(dashboard)/dashboard/client.tsx:1:1)
+    at <unknown> (./src/app/(dashboard)/dashboard/client.tsx:461:1)
+    at <unknown> (./src/app/(dashboard)/dashboard/client.tsx:811:1)
+    at <unknown> (./src/app/layout.tsx:27:1)
+    at <unknown> (./src/app/layout.tsx:31:1)
+    at <unknown> (./src/app/layout.tsx:31:2)
+    at <unknown> (./src/app/layout.tsx:31:3)
+    at <unknown> (./src/app/layout.tsx:31:4)
+    at <unknown> (./src/app/layout.tsx:31:5)
+    at <unknown> (./src/app/layout.tsx:31:6)
+    at <unknown> (./src/app/layout.tsx:31:7)
+    at <unknown> (./src/app/layout.tsx:44:1)
+    at <unknown> (./src/app/profile/[userid]/page.tsx:1:1)
+    at <unknown> (./src/app/profile/[userid]/page.tsx:56:1)
+    at <unknown> (./src/components/features/search/SearchSection.tsx:1:1)
+    at <unknown> (./src/components/features/search/SearchSection.tsx:244:1)
+    at <unknown> (./src/components/landing/Features.tsx:1:1)
+    at <unknown> (./src/components/landing/Features.tsx:49:1)
+    at <unknown> (./src/components/landing/Footer.tsx:1:1)
+    at <unknown> (./src/components/landing/Footer.tsx:21:1)
+    at <unknown> (./src/components/landing/Hero.tsx:1:1)
+    at <unknown> (./src/components/landing/Hero.tsx:48:1)
+    at <unknown> (./src/components/landing/Navbar.tsx:1:1)
+    at <unknown> (./src/components/landing/Navbar.tsx:59:1)
+    at <unknown> (./src/components/landing/Navbar.tsx:124:1)

@@ -1,0 +1,517 @@
+
+> skill-sync@0.1.0 build
+> next build
+
+   ▲ Next.js 16.0.10 (Turbopack)
+   - Environments: .env.local, .env
+
+   Creating an optimized production build ...
+
+> Build error occurred
+Error: Turbopack build failed with 24 errors:
+./src/actions/proposal-actions.ts:1:1
+Parsing ecmascript source code failed
+[0m[31m[1m>[22m[39m[90m 1 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m[33m:[39msrc[33m/[39mactions[33m/[39mproposal[33m-[39mactions[33m.[39mts
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [32m'use server'[39m[33m;[39m
+ [90m 3 |[39m
+ [90m 4 |[39m [36mimport[39m { z } [36mfrom[39m [32m'zod'[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import traces:
+  Client Component Browser:
+    ./src/actions/proposal-actions.ts [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/actions/proposal-actions.ts [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+
+./src/actions/proposal-actions.ts:151:1
+Parsing ecmascript source code failed
+[0m [90m 149 |[39m     [36mreturn[39m { success[33m:[39m [36mfalse[39m[33m,[39m message[33m:[39m [32m'Failed to delete proposal.'[39m }[33m;[39m
+ [90m 150 |[39m   }
+[31m[1m>[22m[39m[90m 151 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m     |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 152 |[39m
+ [90m 153 |[39m [32m'use server'[39m[33m;[39m
+ [90m 154 |[39m[0m
+
+Merge conflict marker encountered.
+
+Import traces:
+  Client Component Browser:
+    ./src/actions/proposal-actions.ts [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/actions/proposal-actions.ts [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+
+./src/actions/swaps.ts:1:1
+Parsing ecmascript source code failed
+[0m[31m[1m>[22m[39m[90m 1 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m[33m:[39msrc[33m/[39mactions[33m/[39mswaps[33m.[39mts
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [32m'use server'[39m[33m;[39m
+ [90m 3 |[39m
+ [90m 4 |[39m [36mimport[39m { prisma } [36mfrom[39m [32m"@/lib/prisma"[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import traces:
+  Client Component Browser:
+    ./src/actions/swaps.ts [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/actions/swaps.ts [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+
+./src/actions/swaps.ts:96:1
+Parsing ecmascript source code failed
+[0m [90m 94 |[39m
+ [90m 95 |[39m
+[31m[1m>[22m[39m[90m 96 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 97 |[39m [32m'use server'[39m[33m;[39m
+ [90m 98 |[39m
+ [90m 99 |[39m [36mimport[39m { prisma } [36mfrom[39m [32m"@/lib/prisma"[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import traces:
+  Client Component Browser:
+    ./src/actions/swaps.ts [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/actions/swaps.ts [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+
+./src/actions/swaps.ts:211:1
+Parsing ecmascript source code failed
+[0m [90m 209 |[39m   [36mreturn[39m swap[33m;[39m
+ [90m 210 |[39m }
+[31m[1m>[22m[39m[90m 211 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m51[39mfea53e9c3c640ee6fd7ebf5d71800b1e27a859[33m:[39mskill[33m-[39msync[33m/[39msrc[33m/[39mactions[33m/[39mswaps[33m.[39mts
+ [90m     |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 212 |[39m[0m
+
+Merge conflict marker encountered.
+
+Import traces:
+  Client Component Browser:
+    ./src/actions/swaps.ts [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/actions/swaps.ts [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+
+./src/app/layout.tsx:27:1
+Parsing ecmascript source code failed
+[0m [90m 25 |[39m }[33m>[39m) {
+ [90m 26 |[39m   [36mreturn[39m (
+[31m[1m>[22m[39m[90m 27 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m[33m:[39msrc[33m/[39mapp[33m/[39mlayout[33m.[39mtsx
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 28 |[39m     [33m<[39m[33mhtml[39m lang[33m=[39m[32m"en"[39m suppressHydrationWarning[33m>[39m
+ [90m 29 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m 30 |[39m     [33m<[39m[33mhtml[39m lang[33m=[39m[32m"en"[39m className[33m=[39m[32m"dark"[39m[33m>[39m[0m
+
+Merge conflict marker encountered.
+
+
+./src/app/layout.tsx:31:1
+Parsing ecmascript source code failed
+[0m [90m 29 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m 30 |[39m     [33m<[39m[33mhtml[39m lang[33m=[39m[32m"en"[39m className[33m=[39m[32m"dark"[39m[33m>[39m
+[31m[1m>[22m[39m[90m 31 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m51[39mfea53e9c3c640ee6fd7ebf5d71800b1e27a859[33m:[39mskill[33m-[39msync[33m/[39msrc[33m/[39mapp[33m/[39mlayout[33m.[39mtsx
+ [90m    |[39m [31m[1m^[22m[39m
+ [90m 32 |[39m       [33m<[39m[33mbody[39m
+ [90m 33 |[39m         className[33m=[39m{[32m`${geistSans.variable} ${geistMono.variable} antialiased`[39m}
+ [90m 34 |[39m       [33m>[39m[0m
+
+Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+
+./src/app/layout.tsx:31:2
+Parsing ecmascript source code failed
+[0m [90m 29 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m 30 |[39m     [33m<[39m[33mhtml[39m lang[33m=[39m[32m"en"[39m className[33m=[39m[32m"dark"[39m[33m>[39m
+[31m[1m>[22m[39m[90m 31 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m51[39mfea53e9c3c640ee6fd7ebf5d71800b1e27a859[33m:[39mskill[33m-[39msync[33m/[39msrc[33m/[39mapp[33m/[39mlayout[33m.[39mtsx
+ [90m    |[39m  [31m[1m^[22m[39m
+ [90m 32 |[39m       [33m<[39m[33mbody[39m
+ [90m 33 |[39m         className[33m=[39m{[32m`${geistSans.variable} ${geistMono.variable} antialiased`[39m}
+ [90m 34 |[39m       [33m>[39m[0m
+
+Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+
+./src/app/layout.tsx:31:3
+Parsing ecmascript source code failed
+[0m [90m 29 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m 30 |[39m     [33m<[39m[33mhtml[39m lang[33m=[39m[32m"en"[39m className[33m=[39m[32m"dark"[39m[33m>[39m
+[31m[1m>[22m[39m[90m 31 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m51[39mfea53e9c3c640ee6fd7ebf5d71800b1e27a859[33m:[39mskill[33m-[39msync[33m/[39msrc[33m/[39mapp[33m/[39mlayout[33m.[39mtsx
+ [90m    |[39m   [31m[1m^[22m[39m
+ [90m 32 |[39m       [33m<[39m[33mbody[39m
+ [90m 33 |[39m         className[33m=[39m{[32m`${geistSans.variable} ${geistMono.variable} antialiased`[39m}
+ [90m 34 |[39m       [33m>[39m[0m
+
+Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+
+./src/app/layout.tsx:31:4
+Parsing ecmascript source code failed
+[0m [90m 29 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m 30 |[39m     [33m<[39m[33mhtml[39m lang[33m=[39m[32m"en"[39m className[33m=[39m[32m"dark"[39m[33m>[39m
+[31m[1m>[22m[39m[90m 31 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m51[39mfea53e9c3c640ee6fd7ebf5d71800b1e27a859[33m:[39mskill[33m-[39msync[33m/[39msrc[33m/[39mapp[33m/[39mlayout[33m.[39mtsx
+ [90m    |[39m    [31m[1m^[22m[39m
+ [90m 32 |[39m       [33m<[39m[33mbody[39m
+ [90m 33 |[39m         className[33m=[39m{[32m`${geistSans.variable} ${geistMono.variable} antialiased`[39m}
+ [90m 34 |[39m       [33m>[39m[0m
+
+Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+
+./src/app/layout.tsx:31:5
+Parsing ecmascript source code failed
+[0m [90m 29 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m 30 |[39m     [33m<[39m[33mhtml[39m lang[33m=[39m[32m"en"[39m className[33m=[39m[32m"dark"[39m[33m>[39m
+[31m[1m>[22m[39m[90m 31 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m51[39mfea53e9c3c640ee6fd7ebf5d71800b1e27a859[33m:[39mskill[33m-[39msync[33m/[39msrc[33m/[39mapp[33m/[39mlayout[33m.[39mtsx
+ [90m    |[39m     [31m[1m^[22m[39m
+ [90m 32 |[39m       [33m<[39m[33mbody[39m
+ [90m 33 |[39m         className[33m=[39m{[32m`${geistSans.variable} ${geistMono.variable} antialiased`[39m}
+ [90m 34 |[39m       [33m>[39m[0m
+
+Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+
+./src/app/layout.tsx:31:6
+Parsing ecmascript source code failed
+[0m [90m 29 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m 30 |[39m     [33m<[39m[33mhtml[39m lang[33m=[39m[32m"en"[39m className[33m=[39m[32m"dark"[39m[33m>[39m
+[31m[1m>[22m[39m[90m 31 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m51[39mfea53e9c3c640ee6fd7ebf5d71800b1e27a859[33m:[39mskill[33m-[39msync[33m/[39msrc[33m/[39mapp[33m/[39mlayout[33m.[39mtsx
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 32 |[39m       [33m<[39m[33mbody[39m
+ [90m 33 |[39m         className[33m=[39m{[32m`${geistSans.variable} ${geistMono.variable} antialiased`[39m}
+ [90m 34 |[39m       [33m>[39m[0m
+
+Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+
+./src/app/layout.tsx:31:7
+Parsing ecmascript source code failed
+[0m [90m 29 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m 30 |[39m     [33m<[39m[33mhtml[39m lang[33m=[39m[32m"en"[39m className[33m=[39m[32m"dark"[39m[33m>[39m
+[31m[1m>[22m[39m[90m 31 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m51[39mfea53e9c3c640ee6fd7ebf5d71800b1e27a859[33m:[39mskill[33m-[39msync[33m/[39msrc[33m/[39mapp[33m/[39mlayout[33m.[39mtsx
+ [90m    |[39m       [31m[1m^[22m[39m
+ [90m 32 |[39m       [33m<[39m[33mbody[39m
+ [90m 33 |[39m         className[33m=[39m{[32m`${geistSans.variable} ${geistMono.variable} antialiased`[39m}
+ [90m 34 |[39m       [33m>[39m[0m
+
+Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+
+./src/app/layout.tsx:44:1
+Parsing ecmascript source code failed
+[0m [90m 42 |[39m     [33m<[39m[33m/[39m[33mhtml[39m[33m>[39m
+ [90m 43 |[39m   )[33m;[39m
+[31m[1m>[22m[39m[90m 44 |[39m }
+ [90m    |[39m [31m[1m^[22m[39m[0m
+
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+
+
+./src/app/profile/[userid]/client.tsx:1:1
+Parsing ecmascript source code failed
+[0m[31m[1m>[22m[39m[90m 1 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m[33m:[39msrc[33m/[39mapp[35m/profile/[39m[userid][33m/[39mclient[33m.[39mtsx
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [32m"use client"[39m[33m;[39m
+ [90m 3 |[39m
+ [90m 4 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState } [36mfrom[39m [32m"react"[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import trace:
+  Server Component:
+    ./src/app/profile/[userid]/client.tsx
+    ./src/app/profile/[userid]/page.tsx
+
+
+./src/app/profile/[userid]/client.tsx:412:1
+Parsing ecmascript source code failed
+[0m [90m 410 |[39m     [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m
+ [90m 411 |[39m   )[33m;[39m
+[31m[1m>[22m[39m[90m 412 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m     |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 413 |[39m [32m"use client"[39m[33m;[39m
+ [90m 414 |[39m
+ [90m 415 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState[33m,[39m useCallback[33m,[39m useEffect } [36mfrom[39m [32m"react"[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import trace:
+  Server Component:
+    ./src/app/profile/[userid]/client.tsx
+    ./src/app/profile/[userid]/page.tsx
+
+
+./src/components/ChatModal.tsx:1:1
+Parsing ecmascript source code failed
+[0m[31m[1m>[22m[39m[90m 1 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m[33m:[39msrc[33m/[39mcomponents[33m/[39m[33mChatModal[39m[33m.[39mtsx
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [32m"use client"[39m[33m;[39m
+ [90m 3 |[39m
+ [90m 4 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState[33m,[39m useEffect[33m,[39m useRef } [36mfrom[39m [32m"react"[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import traces:
+  Client Component Browser:
+    ./src/components/ChatModal.tsx [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/ChatModal.tsx [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+
+./src/components/ChatModal.tsx:111:1
+Parsing ecmascript source code failed
+[0m [90m 109 |[39m         [33m<[39m[33m/[39m[33mDialog[39m[33m>[39m
+ [90m 110 |[39m     )[33m;[39m
+[31m[1m>[22m[39m[90m 111 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m     |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 112 |[39m [32m"use client"[39m[33m;[39m
+ [90m 113 |[39m
+ [90m 114 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState[33m,[39m useEffect[33m,[39m useRef } [36mfrom[39m [32m"react"[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import traces:
+  Client Component Browser:
+    ./src/components/ChatModal.tsx [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/ChatModal.tsx [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+
+./src/components/PostProposalModal.tsx:1:1
+Parsing ecmascript source code failed
+[0m[31m[1m>[22m[39m[90m 1 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m[33m:[39msrc[33m/[39mcomponents[33m/[39m[33mPostProposalModal[39m[33m.[39mtsx
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [32m"use client"[39m[33m;[39m
+ [90m 3 |[39m
+ [90m 4 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState } [36mfrom[39m [32m"react"[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import traces:
+  Client Component Browser:
+    ./src/components/PostProposalModal.tsx [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/PostProposalModal.tsx [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+
+./src/components/PostProposalModal.tsx:118:1
+Parsing ecmascript source code failed
+[0m [90m 116 |[39m     [33m<[39m[33m/[39m[33mDialog[39m[33m>[39m
+ [90m 117 |[39m   )[33m;[39m
+[31m[1m>[22m[39m[90m 118 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m     |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 119 |[39m [32m"use client"[39m[33m;[39m
+ [90m 120 |[39m
+ [90m 121 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState } [36mfrom[39m [32m"react"[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import traces:
+  Client Component Browser:
+    ./src/components/PostProposalModal.tsx [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/PostProposalModal.tsx [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+
+./src/components/ProposalDetailsModal.tsx:1:1
+Parsing ecmascript source code failed
+[0m[31m[1m>[22m[39m[90m 1 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m[33m:[39msrc[33m/[39mcomponents[33m/[39m[33mProposalDetailsModal[39m[33m.[39mtsx
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [32m"use client"[39m[33m;[39m
+ [90m 3 |[39m
+ [90m 4 |[39m [36mimport[39m { useState } [36mfrom[39m [32m"react"[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import traces:
+  Client Component Browser:
+    ./src/components/ProposalDetailsModal.tsx [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/ProposalDetailsModal.tsx [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+
+./src/components/ProposalDetailsModal.tsx:127:1
+Parsing ecmascript source code failed
+[0m [90m 125 |[39m         [33m<[39m[33m/[39m[33mDialog[39m[33m>[39m
+ [90m 126 |[39m     )[33m;[39m
+[31m[1m>[22m[39m[90m 127 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m     |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 128 |[39m [32m"use client"[39m[33m;[39m
+ [90m 129 |[39m
+ [90m 130 |[39m [36mimport[39m { useState } [36mfrom[39m [32m"react"[39m[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import traces:
+  Client Component Browser:
+    ./src/components/ProposalDetailsModal.tsx [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/ProposalDetailsModal.tsx [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+
+./src/components/ThemeToggleButton.tsx:4:1
+Module not found: Can't resolve '@/context/ThemeContext'
+[0m [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m { c [36mas[39m _c } [36mfrom[39m [32m"react/compiler-runtime"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 4 |[39m [36mimport[39m { useTheme } [36mfrom[39m [32m'@/context/ThemeContext'[39m[33m;[39m
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 5 |[39m [36mimport[39m { [33mSun[39m[33m,[39m [33mMoon[39m } [36mfrom[39m [32m'lucide-react'[39m[33m;[39m
+ [90m 6 |[39m [36mexport[39m [36mfunction[39m [33mThemeToggleButton[39m() {
+ [90m 7 |[39m   [36mconst[39m $ [33m=[39m _c([35m4[39m)[33m;[39m[0m
+
+Import map: aliased to relative './src/context/ThemeContext' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./src/components/ThemeToggleButton.tsx [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/ThemeToggleButton.tsx [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./src/components/ThemeToggleButton.tsx:3:1
+Module not found: Can't resolve '@/context/ThemeContext'
+[0m [90m 1 |[39m [32m"use client"[39m[33m;[39m
+ [90m 2 |[39m
+[31m[1m>[22m[39m[90m 3 |[39m [36mimport[39m { useTheme } [36mfrom[39m [32m'@/context/ThemeContext'[39m[33m;[39m
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 4 |[39m [36mimport[39m { [33mSun[39m[33m,[39m [33mMoon[39m } [36mfrom[39m [32m'lucide-react'[39m[33m;[39m
+ [90m 5 |[39m
+ [90m 6 |[39m [36mexport[39m [36mfunction[39m [33mThemeToggleButton[39m() {[0m
+
+Import map: aliased to relative './src/context/ThemeContext' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./src/components/ThemeToggleButton.tsx [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/ThemeToggleButton.tsx [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/client.tsx [Server Component]
+    ./src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at <unknown> (./src/actions/proposal-actions.ts:1:1)
+    at <unknown> (./src/actions/proposal-actions.ts:151:1)
+    at <unknown> (./src/actions/swaps.ts:1:1)
+    at <unknown> (./src/actions/swaps.ts:96:1)
+    at <unknown> (./src/actions/swaps.ts:211:1)
+    at <unknown> (./src/app/layout.tsx:27:1)
+    at <unknown> (./src/app/layout.tsx:31:1)
+    at <unknown> (./src/app/layout.tsx:31:2)
+    at <unknown> (./src/app/layout.tsx:31:3)
+    at <unknown> (./src/app/layout.tsx:31:4)
+    at <unknown> (./src/app/layout.tsx:31:5)
+    at <unknown> (./src/app/layout.tsx:31:6)
+    at <unknown> (./src/app/layout.tsx:31:7)
+    at <unknown> (./src/app/layout.tsx:44:1)
+    at <unknown> (./src/app/profile/[userid]/client.tsx:1:1)
+    at <unknown> (./src/app/profile/[userid]/client.tsx:412:1)
+    at <unknown> (./src/components/ChatModal.tsx:1:1)
+    at <unknown> (./src/components/ChatModal.tsx:111:1)
+    at <unknown> (./src/components/PostProposalModal.tsx:1:1)
+    at <unknown> (./src/components/PostProposalModal.tsx:118:1)
+    at <unknown> (./src/components/ProposalDetailsModal.tsx:1:1)
+    at <unknown> (./src/components/ProposalDetailsModal.tsx:127:1)
+    at <unknown> (./src/components/ThemeToggleButton.tsx:4:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./src/components/ThemeToggleButton.tsx:3:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)

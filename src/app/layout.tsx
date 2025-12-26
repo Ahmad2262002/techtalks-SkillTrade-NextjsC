@@ -16,6 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "SkillTrade",
   description: "The Barter Economy for Knowledge",
+  icons: {
+    icon: "/skill-logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -24,11 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-<<<<<<< HEAD:src/app/layout.tsx
-    <html lang="en" suppressHydrationWarning>
-=======
-    <html lang="en" className="dark">
->>>>>>> 51fea53e9c3c640ee6fd7ebf5d71800b1e27a859:skill-sync/src/app/layout.tsx
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

@@ -1,75 +1,36 @@
-<<<<<<< HEAD:src/components/landing/Features.tsx
-
-export default function Features() {
-  const steps = [
-    {
-      number: "1",
-      title: "Post a Proposal",
-      desc: "Share what you can teach and what you want to learn.",
-    },
-    {
-      number: "2",
-      title: "Find a Match",
-      desc: "Connect with someone who complements your skills.",
-    },
-    {
-      number: "3",
-      title: "Swap & Learn",
-      desc: "Schedule a session and start the knowledge exchange.",
-    },
-    {
-      number: "4",
-      title: "Get Endorsed",
-      desc: "Receive a verified skill badge upon completion.",
-    },
-  ];
-
-  return (
-    <section id="features" className="py-20 px-8 md:px-16 bg-[#071a2a] text-white -mt-10 relative z-20">
-      <h2 className="text-4xl md:text-5xl font-bold mb-12 text-left bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
-        How It Works
-      </h2>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl">
-        {steps.map((step) => (
-          <div key={step.number} className="flex items-start gap-4 group">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#6a5cff] to-[#ff7bd6] flex items-center justify-center font-bold text-xl shadow-lg group-hover:scale-110 transition-transform">
-              {step.number}
-            </div>
-
-            <div>
-              <h3 className="text-xl font-bold mb-2">{step.title}</h3>
-              <p className="text-slate-400 leading-relaxed">{step.desc}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-=======
 import styles from '@/app/(public)/Landing.module.css';
+import { Search, Zap, Award, MessageSquare } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export default function Features() {
   const steps = [
     {
-      number: "1",
-      title: "Post a Proposal",
-      desc: "Share a skill you can teach and what you're eager to learn in return. Be specific!",
+      icon: <Search className="w-8 h-8" />,
+      title: "Discover Expertise",
+      desc: "Browse a curated collection of skills. From quantum physics to sourdough baking, find exactly what you want to master.",
+      color: "from-blue-500/20 to-cyan-500/20",
+      iconColor: "text-cyan-500"
     },
     {
-      number: "2",
-      title: "Find Your Match",
-      desc: "Browse proposals from others or let our system suggest a perfect partner for your skill swap.",
+      icon: <MessageSquare className="w-8 h-8" />,
+      title: "Connect & Propose",
+      desc: "Found a match? Send a personalized swap request. Explain what you can offer and start the conversation.",
+      color: "from-purple-500/20 to-pink-500/20",
+      iconColor: "text-purple-500"
     },
     {
-      number: "3",
-      title: "Swap & Learn",
-      desc: "Connect with your partner, schedule sessions, and start the exciting knowledge exchange.",
+      icon: <Zap className="w-8 h-8" />,
+      title: "The Exchange",
+      desc: "Schedule your one-on-one sessions. Use our built-in chat to coordinate and start your knowledge exchange journey.",
+      color: "from-amber-500/20 to-orange-500/20",
+      iconColor: "text-amber-500"
     },
     {
-      number: "4",
-      title: "Get Endorsed",
-      desc: "Complete a swap and receive a verified skill badge on your profile to build your reputation.",
+      icon: <Award className="w-8 h-8" />,
+      title: "Build Reputation",
+      desc: "Complete your swap and get endorsed. Build a portfolio of verified skills and become a top-rated mentor.",
+      color: "from-emerald-500/20 to-teal-500/20",
+      iconColor: "text-emerald-500"
     },
   ];
 
@@ -77,25 +38,35 @@ export default function Features() {
     <section id="features" className={styles.features}>
       <div className={styles.container}>
         <div className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>How It Works</h2>
+          <h2 className={styles.sectionTitle}>The SkillSwap Ecosystem</h2>
           <p className={styles.sectionDescription}>
-            Four simple steps to unlock a world of knowledge without spending a dime.
+            Unlocking human potential through collaborative knowledge exchange. No money, just mastery.
           </p>
         </div>
 
         <div className={styles.featuresGrid}>
-          {steps.map((step) => (
-            <div key={step.number} className={styles.featureCard}>
-              <div className={styles.featureIcon}>
-                {step.number}
+          {steps.map((step, i) => (
+            <div
+              key={i}
+              style={{ animationDelay: `${i * 150}ms` }}
+              className={cn(styles.featureCard, "group", styles.animateSlideUp)}
+            >
+              <div className={cn(
+                styles.featureIcon,
+                "bg-gradient-to-br transition-all duration-500 group-hover:scale-110",
+                step.color,
+                step.iconColor
+              )}>
+                {step.icon}
               </div>
-              <h3 className={styles.featureTitle}>{step.title}</h3>
-              <p className={styles.featureDescription}>{step.desc}</p>
+              <h3 className={cn(styles.featureTitle, "text-2xl font-black mb-4")}>{step.title}</h3>
+              <p className={cn(styles.featureDescription, "font-medium opacity-70")}>{step.desc}</p>
+
+              <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/20 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
             </div>
           ))}
         </div>
       </div>
     </section>
   );
->>>>>>> 51fea53e9c3c640ee6fd7ebf5d71800b1e27a859:skill-sync/src/components/landing/Features.tsx
 }

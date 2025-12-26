@@ -6,6 +6,8 @@ import { getCurrentUserId } from "@/actions/auth";
 export async function sendMessage(params: {
     swapId: string;
     content: string;
+    mediaUrl?: string;
+    mediaType?: string;
 }) {
     const userId = await getCurrentUserId();
     if (!userId) throw new Error("Not authenticated");
@@ -33,10 +35,12 @@ export async function sendMessage(params: {
             senderId: userId,
             receiverId: receiverId,
             swapId: params.swapId,
+            mediaUrl: params.mediaUrl,
+            mediaType: params.mediaType,
         },
     });
 
-    // Create notification for receiver
+    // Create notification for receiver (will be checked for delayed email)
     await prisma.notification.create({
         data: {
             userId: receiverId,

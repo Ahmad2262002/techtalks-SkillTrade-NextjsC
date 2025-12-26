@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { getCurrentUserId } from "@/lib/auth";
+import { getReputationStats } from "./reviews";
 
 export async function getCurrentUserProfile() {
   const userId = await getCurrentUserId();
@@ -29,13 +30,6 @@ export async function getUserProfile(userId: string) {
       skills: {
         include: { skill: true },
       },
-      reviewsReceived: true,
-      swapsAsTeacher: {
-        where: { status: "COMPLETED" },
-      },
-      swapsAsStudent: {
-        where: { status: "COMPLETED" },
-      },
     },
   });
 
@@ -43,12 +37,7 @@ export async function getUserProfile(userId: string) {
     throw new Error("User not found");
   }
 
-  const completedSwaps = user.swapsAsTeacher.length + user.swapsAsStudent.length;
-  const totalRating = user.reviewsReceived.reduce((sum, review) => sum + review.rating, 0);
-  const averageRating = user.reviewsReceived.length > 0
-    ? Number((totalRating / user.reviewsReceived.length).toFixed(1))
-    : 0;
-  const totalEndorsements = user.skills.filter(s => s.source === "ENDORSED").length;
+  const reputation = await getReputationStats(userId);
 
   return {
     id: user.id,
@@ -63,11 +52,7 @@ export async function getUserProfile(userId: string) {
       source: s.source,
       isVisible: s.isVisible,
     })),
-    reputation: {
-      averageRating,
-      completedSwaps,
-      totalEndorsements,
-    },
+    reputation,
   };
 }
 

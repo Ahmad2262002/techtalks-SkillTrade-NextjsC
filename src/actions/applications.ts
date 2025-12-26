@@ -40,13 +40,33 @@ export async function createApplication(input: {
   }
   // --- FIX END ---
 
-  return prisma.application.create({
+  const application = await prisma.application.create({
     data: {
       proposalId: input.proposalId,
       applicantId: userId,
       pitchMessage: input.pitchMessage,
     },
   });
+
+  // Get owner details to send email
+  const owner = await prisma.user.findUnique({
+    where: { id: proposal.ownerId },
+  });
+
+  if (owner && owner.email) {
+    const { sendEmail } = await import("@/lib/email");
+    await sendEmail({
+      to: owner.email,
+      subject: `New Application for: ${proposal.title}`,
+      html: `
+        <p>You have a new applicant for your proposal <strong>${proposal.title}</strong>.</p>
+        <p><strong>Pitch:</strong> ${input.pitchMessage}</p>
+        <p><a href="${process.env.NEXT_PUBLIC_APP_URL}/dashboard?tab=my-proposals">View Application</a></p>
+      `,
+    });
+  }
+
+  return application;
 }
 
 export async function listApplicationsForProposal(proposalId: string) {
@@ -98,6 +118,7 @@ export async function updateApplicationStatus(params: {
     where: { id: params.applicationId },
     include: {
       proposal: true,
+      applicant: true,
     },
   });
 
@@ -105,8 +126,34 @@ export async function updateApplicationStatus(params: {
     throw new Error("Application not found");
   }
 
-  return prisma.application.update({
+  const updatedApplication = await prisma.application.update({
     where: { id: params.applicationId },
     data: { status: params.status },
   });
+
+  // IMMEDIATE EMAIL for critical status updates
+  if (application.applicant.email && params.status !== ApplicationStatus.PENDING) {
+    const { sendEmail } = await import("@/lib/email");
+    const statusText = params.status === ApplicationStatus.ACCEPTED ? "Accepted" : "Rejected";
+    const statusColor = params.status === ApplicationStatus.ACCEPTED ? "#10b981" : "#ef4444";
+
+    await sendEmail({
+      to: application.applicant.email,
+      subject: `Application ${statusText}: ${application.proposal.title}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: ${statusColor};">Application ${statusText}</h2>
+          <p>Your application for <strong>${application.proposal.title}</strong> has been <strong>${statusText.toLowerCase()}</strong>.</p>
+          ${params.status === ApplicationStatus.ACCEPTED ? `
+            <p>🎉 Congratulations! The proposal owner has accepted your application. You can now start collaborating!</p>
+          ` : `
+            <p>Unfortunately, your application was not accepted this time. Keep exploring other opportunities!</p>
+          `}
+          <p><a href="${process.env.NEXT_PUBLIC_APP_URL}/dashboard?tab=my-applications" style="background-color: ${statusColor}; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 10px;">View Dashboard</a></p>
+        </div>
+      `,
+    });
+  }
+
+  return updatedApplication;
 }

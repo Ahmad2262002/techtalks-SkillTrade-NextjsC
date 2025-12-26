@@ -140,17 +140,19 @@ model Message {
   sender    User     @relation("Sender", fields: [senderId], references: [id])
   receiverId String
   receiver  User     @relation("Receiver", fields: [receiverId], references: [id])
-  swapId    String
-  swap      Swap     @relation(fields: [swapId], references: [id])
+  swapId    String?
+  swap      Swap?     @relation(fields: [swapId], references: [id])
   createdAt DateTime @default(now())
   isRead    Boolean  @default(false)
+  mediaUrl  String?
+  mediaType String? // IMAGE, VIDEO, DOCUMENT
 }
 
 model Notification {
   id        String   @id @default(cuid())
   userId    String
   user      User     @relation(fields: [userId], references: [id])
-  type      String   
+  type      String?   
   message   String
   link      String?  
   isRead    Boolean  @default(false)

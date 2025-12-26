@@ -1,53 +1,7 @@
-<<<<<<< HEAD:src/components/landing/Hero.tsx
-
-import Link from "next/link";
-
-export default function Hero() {
-  return (
-    <section className="relative min-h-[90vh] flex items-center px-8 md:px-16 gap-8 bg-gradient-to-b from-[#07101a] to-[#071a2a] text-white overflow-hidden">
-      {/* Content */}
-      <div className="flex-1 z-10 max-w-2xl mt-16 md:mt-0">
-        <small className="opacity-85 tracking-widest text-xs font-bold text-indigo-400 mb-2 block">THE BARTER ECONOMY</small>
-        <h1 className="text-6xl md:text-8xl font-black leading-none mb-6 tracking-tight">
-          SKILL<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">SWAP</span>
-        </h1>
-        <p className="text-lg text-slate-300 max-w-lg mb-8 leading-relaxed">
-          Learn by Teaching. SkillSwap is a peer-to-peer marketplace where your
-          expertise is the only currency. Exchange your knowledge for the skills
-          you crave.
-        </p>
-
-        <div className="flex flex-wrap gap-4">
-          <Link href="/dashboard">
-            <button className="px-8 py-3 rounded-full bg-gradient-to-r from-[#6a5cff] to-[#ff7bd6] text-white font-bold hover:scale-105 transition-transform shadow-lg shadow-purple-500/25">
-              BROWSE SWAPS
-            </button>
-          </Link>
-          <Link href="/login">
-            <button className="px-8 py-3 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm text-white font-bold hover:bg-white/10 transition-colors">
-              FIND MY MATCH
-            </button>
-          </Link>
-        </div>
-      </div>
-
-      {/* Image */}
-      <div className="flex-1 flex justify-end items-center z-0 hidden md:flex">
-        <div className="relative w-[500px] h-[500px]">
-          <div className="absolute inset-0 bg-indigo-500/20 blur-[100px] rounded-full" />
-          {/* Ensure you have an image at /public/skill-logo.png or change the src */}
-          <img
-            src="/skill-logo.png"
-            alt="SkillSwap Illustration"
-            className="relative z-10 w-full h-full object-contain drop-shadow-2xl mix-blend-screen"
-          />
-        </div>
-      </div>
-    </section>
-  );
-=======
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Zap } from "lucide-react";
 import styles from "@/app/(public)/Landing.module.css";
 
 export default function Hero() {
@@ -55,26 +9,73 @@ export default function Hero() {
     <section className={styles.hero}>
       <div className={styles.heroBackground} aria-hidden="true" />
       <div className={`${styles.container} ${styles.heroContent}`}>
-        <span className={styles.heroEyebrow}>The future of learning is collaborative</span>
-        <h1 className={styles.heroTitle}>
-          Trade Your Talent. Master a New Skill.
+        <div className="flex justify-center mb-8 animate-fade-in">
+          <div className="px-4 py-2 rounded-full border-2 border-primary/20 bg-primary/5 flex items-center gap-3 backdrop-blur-sm">
+            <div className="flex -space-x-2">
+              {[1, 2, 3].map(i => (
+                <div key={i} className="w-8 h-8 rounded-full border-2 border-background bg-muted overflow-hidden">
+                  <img src={`https://i.pravatar.cc/100?img=${i + 10}`} alt="User" />
+                </div>
+              ))}
+            </div>
+            <p className="text-sm font-bold text-foreground">
+              Join <span className="text-primary font-black">2,400+</span> learners today
+            </p>
+            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          </div>
+        </div>
+
+        <span className={cn(styles.heroEyebrow, styles.animateSlideUp)}>The future of learning is collaborative</span>
+        <h1 className={cn(styles.heroTitle, styles.animateSlideLeft, "delay-75")}>
+          Trade Your Talent.<br />Master <span className="text-primary font-black">Anything.</span>
         </h1>
-        <p className={styles.heroDescription}>
-          SkillSwap is a peer-to-peer marketplace where your expertise is the only currency. Exchange your knowledge for the skills you've always wanted to learn, one-on-one.
+        <p className={cn(styles.heroDescription, styles.animateSlideRight, "delay-150")}>
+          SkillSwap is a premium peer-to-peer marketplace where your expertise is the only currency. Exchange your knowledge for the skills you've always wanted to learn.
         </p>
 
-        <div className={styles.heroActions}>
+        <div className={cn(styles.heroActions, "animate-fade-in delay-300")}>
           <Link href="/dashboard">
-            <Button size="lg">Start Browsing Swaps</Button>
+            <Button size="lg" className="h-16 px-10 rounded-2xl text-xl font-black bg-primary shadow-2xl shadow-primary/40 hover:scale-105 active:scale-95 transition-all group">
+              Start Browsing Swaps
+              <Zap className="ml-2 w-5 h-5 group-hover:fill-current transition-all" />
+            </Button>
           </Link>
           <Link href="/login">
-            <Button size="lg" variant="secondary">
+            <Button size="lg" variant="outline" className="h-16 px-10 rounded-2xl text-xl font-black border-2 hover:bg-muted transition-all">
               Find Your Match
             </Button>
           </Link>
         </div>
+
+        <div className="mt-24 pt-12 border-t border-border/10 animate-fade-in delay-500">
+          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground mb-12">Empowering learners from</p>
+          <div className={styles.marqueeContainer}>
+            <div className={styles.marqueeContent}>
+              {["Google", "Meta", "Amazon", "Netflix", "Microsoft", "Tencent", "Airbnb", "Spotify"].map(brand => (
+                <span key={brand} className="text-3xl font-black tracking-tighter text-foreground italic opacity-40 hover:opacity-100 transition-opacity cursor-default whitespace-nowrap">{brand}</span>
+              ))}
+              {/* Duplicate for infinite effect */}
+              {["Google", "Meta", "Amazon", "Netflix", "Microsoft", "Tencent", "Airbnb", "Spotify"].map(brand => (
+                <span key={`${brand}-dup`} className="text-3xl font-black tracking-tighter text-foreground italic opacity-40 hover:opacity-100 transition-opacity cursor-default whitespace-nowrap">{brand}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 animate-fade-in delay-700">
+          {[
+            { label: "Swaps Completed", value: "12,402", color: "text-primary" },
+            { label: "Global Mentors", value: "840+", color: "text-primary" },
+            { label: "Unique Skills", value: "154", color: "text-primary" },
+            { label: "Community Rating", value: "4.95", color: "text-primary" }
+          ].map((stat, i) => (
+            <div key={i} className="flex flex-col items-center p-6 rounded-[2rem] bg-card/30 border border-border/10 backdrop-blur-sm group hover:border-primary/20 transition-all">
+              <span className={cn("text-3xl font-black mb-1", stat.color)}>{stat.value}</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground group-hover:text-foreground transition-colors">{stat.label}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
->>>>>>> 51fea53e9c3c640ee6fd7ebf5d71800b1e27a859:skill-sync/src/components/landing/Hero.tsx
 }

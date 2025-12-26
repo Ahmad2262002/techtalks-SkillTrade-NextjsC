@@ -1,415 +1,3 @@
-<<<<<<< HEAD:src/app/profile/[userid]/client.tsx
-"use client";
-
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import {
-  ArrowLeft,
-  Settings,
-  Star,
-  CheckCircle,
-  Award,
-  Trash2,
-  Zap,
-  Phone,
-  Image as ImageIcon,
-  Plus,
-  X,
-  Upload,
-  Loader2,
-  Briefcase,
-  AlertTriangle
-} from "lucide-react";
-
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { upsertProfile } from "@/actions/profile";
-import { addSkillToCurrentUser, removeManualSkillFromCurrentUser } from "@/actions/skills";
-import { countries } from "@/lib/countries";
-import { getSupabaseBrowserClient } from "@/lib/supabase-browser";
-
-// --- Types ---
-interface ProfileData {
-  id: string;
-  name: string;
-  industry: string;
-  bio: string;
-  avatarUrl: string | null;
-  phoneNumber: string | null;
-  skills: Array<{
-    id: string;
-    name: string;
-    source: string;
-    isVisible: boolean;
-  }>;
-  reputation: {
-    averageRating: number;
-    completedSwaps: number;
-    totalEndorsements: number;
-  };
-}
-
-interface ProfileClientContentProps {
-  profileData: ProfileData;
-  isOwnProfile: boolean;
-  useMockData: boolean;
-}
-
-export default function ProfileClientContent({
-  profileData,
-  isOwnProfile,
-  useMockData,
-}: ProfileClientContentProps) {
-  const router = useRouter();
-  const [editMode, setEditMode] = useState(false);
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  
-  // Form State
-  const [formData, setFormData] = useState({
-    name: profileData.name || "",
-    industry: profileData.industry || "",
-    bio: profileData.bio || "",
-    avatarUrl: profileData.avatarUrl || "",
-    phoneNumber: profileData.phoneNumber || "",
-  });
-
-  const [countryCode, setCountryCode] = useState("+1");
-  const [localNumber, setLocalNumber] = useState("");
-  const [newSkill, setNewSkill] = useState("");
-  const [isAddingSkill, setIsAddingSkill] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
-
-  // Initialize Phone
-  React.useEffect(() => {
-    if (profileData.phoneNumber) {
-      const sortedCountries = [...countries].sort((a, b) => b.dial_code.length - a.dial_code.length);
-      const country = sortedCountries.find(c => profileData.phoneNumber?.startsWith(c.dial_code));
-      if (country) {
-        setCountryCode(country.dial_code);
-        setLocalNumber(profileData.phoneNumber.slice(country.dial_code.length).trim());
-      } else {
-        setLocalNumber(profileData.phoneNumber);
-      }
-    }
-  }, [profileData.phoneNumber]);
-
-  // Skill Filters
-  const visibleSkills = profileData.skills.filter(s => s.isVisible !== false);
-  const endorsedSkills = visibleSkills.filter(s => s.source === "ENDORSED");
-  const manualSkills = visibleSkills.filter(s => s.source !== "ENDORSED");
-
-  // Actions
-  const handleSave = async () => {
-    await upsertProfile({
-      ...formData,
-      phoneNumber: localNumber ? `${countryCode}${localNumber}` : null,
-    });
-    setEditMode(false);
-    router.refresh();
-  };
-
-  const handleAddSkill = async () => {
-    if (!newSkill.trim()) return;
-    setIsAddingSkill(true);
-    try {
-      await addSkillToCurrentUser({ name: newSkill.trim() });
-      setNewSkill("");
-      router.refresh();
-    } catch (error) {
-      console.error("Failed to add skill", error);
-    } finally {
-      setIsAddingSkill(false);
-    }
-  };
-
-  const handleRemoveSkill = async (id: string) => {
-    await removeManualSkillFromCurrentUser(id);
-    router.refresh();
-  };
-
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setIsUploading(true);
-    
-    // Data URL fallback
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setFormData(prev => ({ ...prev, avatarUrl: reader.result as string }));
-      setIsUploading(false);
-    };
-    reader.readAsDataURL(file);
-  };
-
-  return (
-    <div className="min-h-screen bg-slate-950 text-slate-50 font-sans pb-20 selection:bg-sky-500/30">
-      {/* Background Ambience */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] rounded-full bg-indigo-900/10 blur-[120px]" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-sky-900/10 blur-[120px]" />
-      </div>
-
-      <div className="relative z-10 mx-auto max-w-5xl px-4 md:px-8 pt-6">
-        
-        {/* --- HEADER --- */}
-        <header className="flex items-center justify-between mb-8">
-          <button 
-            onClick={() => router.push("/dashboard")}
-            className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span className="text-sm font-medium">Back to Dashboard</span>
-          </button>
-          
-          {isOwnProfile && !editMode && (
-            <button
-              onClick={() => setEditMode(true)}
-              className="flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/50 px-4 py-2 text-xs font-medium text-slate-300 hover:bg-slate-800 transition-all"
-            >
-              <Settings className="w-3.5 h-3.5" /> Edit Profile
-            </button>
-          )}
-        </header>
-
-        {/* --- WARNING BANNER (If Database Fetch Failed) --- */}
-        {useMockData && (
-          <div className="mb-6 rounded-lg border border-yellow-500/30 bg-yellow-500/10 p-4 text-yellow-200 flex items-center gap-3">
-            <AlertTriangle className="w-5 h-5" />
-            <div className="text-sm">
-              <p className="font-semibold">Profile Data Unavailable</p>
-              <p className="opacity-80">We couldn't load the real profile data. You are viewing a placeholder.</p>
-            </div>
-          </div>
-        )}
-
-        {/* --- PROFILE CARD --- */}
-        <div className="relative overflow-hidden rounded-3xl border border-slate-800/60 bg-slate-900/40 p-8 shadow-2xl backdrop-blur-md">
-          
-          <div className="flex flex-col items-center text-center">
-            {/* Avatar */}
-            <div className="relative group mb-6">
-              <Avatar className="h-32 w-32 border-4 border-slate-950 shadow-2xl">
-                <AvatarImage src={formData.avatarUrl || ""} className="object-cover" />
-                <AvatarFallback className="bg-gradient-to-br from-indigo-500 to-purple-600 text-3xl font-bold text-white">
-                  {formData.name?.[0] || "U"}
-                </AvatarFallback>
-              </Avatar>
-              
-              {editMode && (
-                <label className="absolute bottom-0 right-0 p-2 bg-sky-500 rounded-full cursor-pointer shadow-lg hover:bg-sky-400 transition-colors">
-                  <Upload className="w-4 h-4 text-white" />
-                  <input type="file" className="hidden" accept="image/*" onChange={handleFileUpload} />
-                </label>
-              )}
-            </div>
-
-            {/* Editable Info */}
-            {editMode ? (
-              <div className="w-full max-w-md space-y-4 animate-in fade-in">
-                <Input 
-                  value={formData.name} 
-                  onChange={e => setFormData({...formData, name: e.target.value})}
-                  className="text-center text-lg font-bold bg-slate-950/50 border-slate-700" 
-                  placeholder="Your Name"
-                />
-                <Input 
-                  value={formData.industry} 
-                  onChange={e => setFormData({...formData, industry: e.target.value})}
-                  className="text-center bg-slate-950/50 border-slate-700" 
-                  placeholder="Industry / Title"
-                />
-                <div className="flex gap-2 justify-center">
-                  <select 
-                    value={countryCode} 
-                    onChange={e => setCountryCode(e.target.value)}
-                    className="w-24 rounded-md border border-slate-700 bg-slate-950/50 px-2 text-sm focus:border-sky-500 outline-none"
-                  >
-                    {countries.map(c => <option key={c.code} value={c.dial_code}>{c.code}</option>)}
-                  </select>
-                  <Input 
-                    value={localNumber}
-                    onChange={e => setLocalNumber(e.target.value)}
-                    className="w-40 bg-slate-950/50 border-slate-700"
-                    placeholder="123 456 7890"
-                  />
-                </div>
-              </div>
-            ) : (
-              <div className="space-y-2">
-                <h1 className="text-3xl font-bold text-white">{profileData.name || "Unknown User"}</h1>
-                <div className="flex items-center justify-center gap-2 text-slate-400">
-                  <Briefcase className="w-4 h-4" />
-                  <span>{profileData.industry || "No industry listed"}</span>
-                </div>
-                {profileData.phoneNumber && (
-                  <div className="flex items-center justify-center gap-2 text-slate-500 text-sm">
-                    <Phone className="w-3.5 h-3.5" />
-                    <span>{profileData.phoneNumber}</span>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Stats */}
-            <div className="mt-8 flex gap-8 md:gap-12 border-t border-slate-800 pt-6">
-              <StatItem label="Swaps" value={profileData.reputation.completedSwaps} icon={Zap} color="text-sky-400" />
-              <StatItem label="Rating" value={profileData.reputation.averageRating || "-"} icon={Star} color="text-yellow-400" />
-              <StatItem label="Endorsed" value={profileData.reputation.totalEndorsements} icon={CheckCircle} color="text-emerald-400" />
-            </div>
-          </div>
-        </div>
-
-        {/* --- DETAILS GRID --- */}
-        <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
-          
-          {/* ABOUT SECTION */}
-          <GlassSection title="About">
-            {editMode ? (
-              <Textarea 
-                value={formData.bio} 
-                onChange={e => setFormData({...formData, bio: e.target.value})}
-                className="min-h-[150px] bg-slate-950/50 border-slate-700 text-slate-200"
-                placeholder="Tell us about yourself..."
-              />
-            ) : (
-              <p className="text-slate-300 leading-relaxed whitespace-pre-wrap">
-                {profileData.bio || "No bio added yet."}
-              </p>
-            )}
-          </GlassSection>
-
-          {/* SKILLS SECTION */}
-          <GlassSection title="Skills">
-            <div className="flex flex-wrap gap-2">
-              {/* Endorsed Skills */}
-              {endorsedSkills.map(skill => (
-                <span key={skill.id} className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-400">
-                  <Award className="w-3.5 h-3.5" />
-                  {skill.name}
-                </span>
-              ))}
-
-              {/* Manual Skills */}
-              {manualSkills.map(skill => (
-                <span key={skill.id} className="group relative inline-flex items-center gap-1.5 rounded-full border border-slate-700 bg-slate-800/50 px-3 py-1.5 text-xs font-medium text-slate-300">
-                  {skill.name}
-                  {editMode && isOwnProfile && (
-                    <button 
-                      onClick={() => handleRemoveSkill(skill.id)}
-                      className="ml-1 rounded-full bg-slate-700 p-0.5 text-slate-400 hover:text-rose-400 hover:bg-slate-900"
-                    >
-                      <X className="w-3 h-3" />
-                    </button>
-                  )}
-                </span>
-              ))}
-
-              {editMode && (
-                <div className="flex items-center gap-2">
-                  <input
-                    value={newSkill}
-                    onChange={e => setNewSkill(e.target.value)}
-                    onKeyDown={e => e.key === 'Enter' && handleAddSkill()}
-                    placeholder="Add skill..."
-                    className="w-24 rounded-full border border-slate-700 bg-slate-950/50 px-3 py-1.5 text-xs text-slate-200 outline-none focus:border-sky-500"
-                  />
-                  <button 
-                    onClick={handleAddSkill} 
-                    disabled={isAddingSkill}
-                    className="flex h-7 w-7 items-center justify-center rounded-full border border-dashed border-slate-600 text-slate-400 hover:border-sky-500 hover:text-sky-500"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
-                </div>
-              )}
-            </div>
-          </GlassSection>
-        </div>
-
-        {/* --- EDIT ACTIONS --- */}
-        {editMode && (
-          <div className="fixed bottom-6 left-0 right-0 z-50 flex justify-center gap-4">
-            <button 
-              onClick={() => setEditMode(false)}
-              className="rounded-full bg-slate-900 border border-slate-700 px-6 py-3 text-sm font-semibold text-slate-300 shadow-xl hover:bg-slate-800"
-            >
-              Cancel
-            </button>
-            <button 
-              onClick={handleSave}
-              className="rounded-full bg-sky-500 px-6 py-3 text-sm font-semibold text-white shadow-xl shadow-sky-500/20 hover:bg-sky-400"
-            >
-              Save Changes
-            </button>
-          </div>
-        )}
-
-        {/* --- DELETE ACCOUNT (Hidden unless editing own profile) --- */}
-        {editMode && isOwnProfile && (
-          <div className="mt-12 text-center">
-            <button 
-              onClick={() => setShowDeleteDialog(true)}
-              className="text-xs text-rose-500 hover:text-rose-400 hover:underline"
-            >
-              Delete Account
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* --- DIALOGS --- */}
-      <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-        <DialogContent className="bg-slate-900 border-slate-800 text-slate-200">
-          <DialogHeader>
-            <DialogTitle className="text-rose-500">Delete Account</DialogTitle>
-            <DialogDescription className="text-slate-400">
-              This action cannot be undone. All your data will be lost.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <button onClick={() => setShowDeleteDialog(false)} className="px-4 py-2 text-sm text-slate-300 hover:text-white">
-              Cancel
-            </button>
-            <button className="rounded-md bg-rose-600 px-4 py-2 text-sm text-white hover:bg-rose-700">
-              Delete Forever
-            </button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </div>
-  );
-}
-
-// --- Subcomponents for Clean Layout ---
-
-function StatItem({ label, value, icon: Icon, color }: any) {
-  return (
-    <div className="flex flex-col items-center">
-      <div className={`text-2xl font-bold ${color || "text-white"}`}>{value}</div>
-      <div className="flex items-center gap-1 text-xs font-medium uppercase tracking-wider text-slate-500 mt-1">
-        <Icon className="w-3 h-3" /> {label}
-      </div>
-    </div>
-  );
-}
-
-function GlassSection({ title, children }: { title: string, children: React.ReactNode }) {
-  return (
-    <div className="rounded-2xl border border-slate-800/60 bg-slate-900/40 p-6 shadow-lg backdrop-blur-md">
-      <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-slate-500">{title}</h3>
-      {children}
-    </div>
-  );
-=======
 "use client";
 
 import React, { useState, useCallback, useEffect } from "react";
@@ -417,11 +5,12 @@ import { useRouter } from "next/navigation";
 import styles from "./Profile.module.css";
 import {
   ArrowLeft, Settings, Star, CheckCircle, Award, Briefcase, Phone,
-  Upload, Loader2, Plus, X, AlertTriangle, MessageSquare
+  Upload, Loader2, Plus, X, AlertTriangle, MessageSquare, Zap, Trophy, Shield, Medal
 } from "lucide-react";
 
 // UI & Action Imports
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ReputationBadge } from "@/components/ReputationBadge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -430,15 +19,53 @@ import { addSkillToCurrentUser, removeManualSkillFromCurrentUser } from "@/actio
 import { getSupabaseBrowserClient } from "@/lib/supabase-browser";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
-import { ThemeToggleButton } from "@/components/ThemeToggleButton";
+import { ThemeCustomizer } from "@/components/ThemeCustomizer";
 import { findActiveSwapBetweenUsers } from "@/actions/swaps";
 import { ChatModal } from "@/components/ChatModal";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const COUNTRY_CODES = [
+  { code: "+961", country: "�� Lebanon" },
+  { code: "+1", country: "�� USA/Canada" },
+  { code: "+44", country: "�� United Kingdom" },
+  { code: "+91", country: "�� India" },
+  { code: "+971", country: "�🇪 UAE" },
+  { code: "+20", country: "�� Egypt" },
+  { code: "+33", country: "�� France" },
+  { code: "+49", country: "�� Germany" },
+  { code: "+61", country: "�� Australia" },
+  { code: "+81", country: "�� Japan" },
+  { code: "+86", country: "�� China" },
+  { code: "+55", country: "�� Brazil" },
+  { code: "+34", country: "🇪🇸 Spain" },
+  { code: "+39", country: "🇮🇹 Italy" },
+  { code: "+52", country: "🇲🇽 Mexico" },
+  { code: "+62", country: "🇮🇩 Indonesia" },
+  { code: "+63", country: "🇵🇭 Philippines" },
+  { code: "+66", country: "🇹🇭 Thailand" },
+  { code: "+84", country: "🇻🇳 Vietnam" },
+  { code: "+27", country: "🇿🇦 South Africa" },
+];
 
 // --- Type Definitions ---
 interface ProfileData {
   id: string; name: string; industry: string; bio: string; avatarUrl: string | null; phoneNumber: string | null;
   skills: Array<{ id: string; name: string; source: string; isVisible: boolean; }>;
-  reputation: { averageRating: number; completedSwaps: number; totalEndorsements: number; };
+  reputation: {
+    level: number;
+    title: string;
+    reputationPoints: number;
+    color: string;
+    averageRating: number;
+    completedSwaps: number;
+    totalEndorsements: number;
+  };
 }
 
 interface ProfileClientContentProps {
@@ -451,7 +78,7 @@ export default function ProfileClientContent({ profileData, isOwnProfile, useMoc
   const { toast } = useToast();
   const [editMode, setEditMode] = useState(false);
   const [activeTab, setActiveTab] = useState<'about' | 'skills'>('about');
-  
+
   const [formData, setFormData] = useState({
     name: profileData.name || "", industry: profileData.industry || "", bio: profileData.bio || "",
     avatarUrl: profileData.avatarUrl || "", phoneNumber: profileData.phoneNumber || "",
@@ -475,7 +102,7 @@ export default function ProfileClientContent({ profileData, isOwnProfile, useMoc
     toast({ title: "Profile Updated", description: "Your changes have been saved." });
     router.refresh();
   }, [formData, router, toast]);
-  
+
   const handleCancel = useCallback(() => {
     setFormData({
       name: profileData.name || "", industry: profileData.industry || "", bio: profileData.bio || "",
@@ -485,26 +112,31 @@ export default function ProfileClientContent({ profileData, isOwnProfile, useMoc
   }, [profileData]);
 
   return (
-    <div className="min-h-screen">
-      <div className={styles.profileLayout}>
+    <div className="min-h-screen bg-background text-foreground animate-fade-in">
+      <div className={cn(styles.profileLayout, "max-w-6xl mx-auto px-6 py-12")}>
         <ProfileHeader
           isOwnProfile={isOwnProfile}
           editMode={editMode}
           onEditToggle={() => setEditMode(true)}
         />
 
-        {useMockData && <MockDataWarning />}
+        <div className="flex flex-col lg:flex-row gap-12 mt-8">
+          <div className="lg:w-[350px] shrink-0">
+            {useMockData && <MockDataWarning />}
+            <ProfileSidebar
+              profileData={profileData} formData={formData} setFormData={setFormData}
+              editMode={editMode} isOwnProfile={isOwnProfile}
+              currentUserId={currentUserId} mutualSwapId={mutualSwapId}
+            />
+          </div>
 
-        <ProfileSidebar
-          profileData={profileData} formData={formData} setFormData={setFormData}
-          editMode={editMode} isOwnProfile={isOwnProfile}
-          currentUserId={currentUserId} mutualSwapId={mutualSwapId}
-        />
-
-        <ProfileMainContent
-          profileData={profileData} formData={formData} setFormData={setFormData}
-          editMode={editMode} activeTab={activeTab} setActiveTab={setActiveTab}
-        />
+          <div className="flex-1">
+            <ProfileMainContent
+              profileData={profileData} formData={formData} setFormData={setFormData}
+              editMode={editMode} activeTab={activeTab} setActiveTab={setActiveTab}
+            />
+          </div>
+        </div>
       </div>
 
       {editMode && <EditModeActions onSave={handleSave} onCancel={handleCancel} />}
@@ -524,11 +156,11 @@ function ProfileSidebar({ profileData, formData, setFormData, editMode, isOwnPro
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    
+
     setIsUploading(true);
     const supabase = getSupabaseBrowserClient();
     const filePath = `${profileData.id}/${Date.now()}_${file.name}`;
-    
+
     const { error } = await supabase.storage.from("avatars").upload(filePath, file);
 
     if (error) {
@@ -540,55 +172,136 @@ function ProfileSidebar({ profileData, formData, setFormData, editMode, isOwnPro
     setIsUploading(false);
   };
 
+  const nextLevelExp = profileData.reputation.level === 5 ? profileData.reputation.reputationPoints :
+    profileData.reputation.level === 4 ? 1000 :
+      profileData.reputation.level === 3 ? 400 :
+        profileData.reputation.level === 2 ? 150 : 50;
+
+  const progressPercent = Math.min(100, (profileData.reputation.reputationPoints / nextLevelExp) * 100);
+
   return (
-    <aside className={styles.sidebar}>
+    <aside className={cn(styles.sidebar, "shadow-2xl shadow-primary/5")}>
       <div className={styles.avatarWrapper}>
-        <Avatar className="h-32 w-32 border-4 border-background">
-          <AvatarImage src={formData.avatarUrl || ""} className="object-cover" />
-          <AvatarFallback className="text-3xl font-bold">{formData.name?.[0] || "U"}</AvatarFallback>
+        <Avatar className="h-40 w-40 border-8 border-card shadow-xl group cursor-pointer overflow-hidden">
+          <AvatarImage src={formData.avatarUrl || ""} className="object-cover group-hover:scale-110 transition-transform duration-500" />
+          <AvatarFallback className="text-4xl font-black bg-primary/5 text-primary">{formData.name?.[0] || "U"}</AvatarFallback>
         </Avatar>
         {editMode && (
-          <label className={styles.avatarUploadButton}>
-            {isUploading ? <Loader2 className="w-5 h-5 animate-spin"/> : <Upload className="w-5 h-5" />}
+          <label className={cn(styles.avatarUploadButton, "hover:scale-110 active:scale-95 shadow-primary/20")}>
+            {isUploading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Upload className="w-5 h-5" />}
             <input type="file" className="hidden" accept="image/*" onChange={handleFileUpload} />
           </label>
         )}
       </div>
-      
-      {editMode ? (
-        <div className="space-y-2">
-          <Input value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} placeholder="Your Name" className="text-center text-xl font-bold"/>
-          <Input value={formData.industry} onChange={e => setFormData({...formData, industry: e.target.value})} placeholder="Industry / Title" className="text-center" />
-        </div>
-      ) : (
-        <>
-          <h1 className={styles.userName}>{profileData.name}</h1>
-          <p className={styles.userIndustry}><Briefcase size={16} />{profileData.industry || "No industry listed"}</p>
-        </>
-      )}
 
-      <div className={styles.statsGrid}>
-        <StatItem value={profileData.reputation.completedSwaps} label="Swaps" />
-        <StatItem value={profileData.reputation.averageRating || "-"} label="Rating" />
-        <StatItem value={profileData.reputation.totalEndorsements} label="Endorsed" />
+      <div className="mt-6 flex flex-col items-center">
+        {editMode ? (
+          <div className="space-y-3 w-full">
+            <div className="space-y-1">
+              <p className="text-[10px] font-black uppercase tracking-widest text-primary ml-1">Full Name</p>
+              <Input value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder="Your Name" className="text-center text-xl font-bold rounded-xl border-2" />
+            </div>
+            <div className="space-y-1">
+              <p className="text-[10px] font-black uppercase tracking-widest text-primary ml-1">Industry</p>
+              <Input value={formData.industry} onChange={e => setFormData({ ...formData, industry: e.target.value })} placeholder="Industry / Title" className="text-center rounded-xl border-2" />
+            </div>
+            <div className="space-y-1">
+              <p className="text-[10px] font-black uppercase tracking-widest text-primary ml-1">Phone Number</p>
+              <div className="flex gap-2">
+                <Select
+                  value={(() => {
+                    const matched = COUNTRY_CODES.find(c => formData.phoneNumber?.startsWith(c.code));
+                    return matched ? matched.code : "+1";
+                  })()}
+                  onValueChange={(code) => {
+                    const matched = COUNTRY_CODES.find(c => formData.phoneNumber?.startsWith(c.code));
+                    const currentNum = matched ? formData.phoneNumber!.slice(matched.code.length) : formData.phoneNumber;
+                    setFormData({ ...formData, phoneNumber: code + (currentNum || "") });
+                  }}
+                >
+                  <SelectTrigger className="w-[110px] h-12 rounded-xl border-2 font-black bg-background shrink-0">
+                    <SelectValue placeholder="Code" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-popover border-border shadow-2xl">
+                    {COUNTRY_CODES.map(c => (
+                      <SelectItem key={c.code} value={c.code} className="font-bold cursor-pointer">
+                        {c.country} ({c.code})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Input
+                  value={(() => {
+                    const matched = COUNTRY_CODES.find(c => formData.phoneNumber?.startsWith(c.code));
+                    return matched ? formData.phoneNumber!.slice(matched.code.length) : formData.phoneNumber;
+                  })() || ''}
+                  onChange={e => {
+                    const matched = COUNTRY_CODES.find(c => formData.phoneNumber?.startsWith(c.code));
+                    const code = matched ? matched.code : "+1";
+                    setFormData({ ...formData, phoneNumber: code + e.target.value });
+                  }}
+                  placeholder="Number"
+                  className="flex-1 h-12 rounded-xl border-2 font-bold bg-background"
+                />
+              </div>
+            </div>
+          </div>
+        ) : (
+          <>
+            <h1 className={cn(styles.userName, "text-3xl font-black text-foreground")}>{profileData.name}</h1>
+            <p className={cn(styles.userIndustry, "font-bold text-muted-foreground mb-4")}>
+              <Briefcase className="w-4 h-4 text-primary" />
+              {profileData.industry || "General Expert"}
+            </p>
+            <ReputationBadge reputation={profileData.reputation} size="md" />
+            {profileData.phoneNumber && (
+              <div className="mt-4 px-4 py-2 bg-muted/50 rounded-full border border-border flex items-center gap-2 text-sm font-bold text-muted-foreground">
+                <Phone className="w-3 h-3 text-primary" />
+                {profileData.phoneNumber}
+              </div>
+            )}
+          </>
+        )}
       </div>
 
-      {/* --- CHAT BUTTON LOGIC --- */}
+      <div className={cn(styles.statsGrid, "grid grid-cols-3 gap-2 w-full mt-8 p-6 bg-muted/30 rounded-[2rem] border border-border/50")}>
+        <StatItem value={profileData.reputation.completedSwaps} label="Swaps" />
+        <StatItem value={profileData.reputation.averageRating > 0 ? profileData.reputation.averageRating.toFixed(1) : "—"} label="Rating" />
+        <StatItem value={profileData.reputation.totalEndorsements} label="Kudos" />
+      </div>
+
+      <div className="w-full mt-6 space-y-3 px-2">
+        <div className="flex justify-between items-end">
+          <div className="flex flex-col">
+            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Progression</span>
+            <span className="text-sm font-black text-foreground">{profileData.reputation.reputationPoints} XP</span>
+          </div>
+          <span className="text-[10px] font-black text-muted-foreground uppercase opacity-70">
+            Next Level: {profileData.reputation.level === 5 ? "MAX" : `${nextLevelExp} XP`}
+          </span>
+        </div>
+        <div className="h-2 w-full bg-muted rounded-full overflow-hidden border border-border/50">
+          <div
+            className={cn("h-full transition-all duration-1000 ease-out bg-gradient-to-r",
+              profileData.reputation.level === 5 ? "from-amber-400 to-amber-600" :
+                profileData.reputation.level === 4 ? "from-purple-400 to-purple-600" :
+                  profileData.reputation.level === 3 ? "from-sky-400 to-sky-600" :
+                    profileData.reputation.level === 2 ? "from-emerald-400 to-emerald-600" : "from-slate-400 to-slate-600"
+            )}
+            style={{ width: `${progressPercent}%` }}
+          />
+        </div>
+      </div>
+
       {!isOwnProfile && currentUserId && mutualSwapId && (
-        <div className="mt-4 mb-4 w-full">
+        <div className="mt-8 w-full">
           <ChatModal
             swapId={mutualSwapId}
             currentUserId={currentUserId}
             otherUserName={profileData.name}
-            triggerClassName="w-full"
+            triggerClassName="w-full h-14 rounded-2xl font-black text-lg bg-primary shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
           />
         </div>
-      )}
-      
-      {editMode ? (
-        <Input value={formData.phoneNumber || ''} onChange={e => setFormData({...formData, phoneNumber: e.target.value})} placeholder="Phone Number" />
-      ) : profileData.phoneNumber && (
-        <p className={styles.contactInfo}><Phone size={14} />{profileData.phoneNumber}</p>
       )}
     </aside>
   );
@@ -599,16 +312,16 @@ function ProfileSidebar({ profileData, formData, setFormData, editMode, isOwnPro
 function ProfileHeader({ isOwnProfile, editMode, onEditToggle }: { isOwnProfile: boolean, editMode: boolean, onEditToggle: () => void }) {
   const router = useRouter();
   return (
-    <header className={styles.header}>
-      <Button variant="ghost" onClick={() => router.push("/dashboard")}>
-        <ArrowLeft className="w-4 h-4 mr-2" />
+    <header className="flex justify-between items-center w-full">
+      <Button variant="ghost" onClick={() => router.push("/dashboard")} className="rounded-xl font-bold hover:bg-muted text-muted-foreground hover:text-foreground transition-all">
+        <ArrowLeft className="w-5 h-5 mr-2" />
         Back to Dashboard
       </Button>
-      <div className="flex items-center gap-2">
-        <ThemeToggleButton />
+      <div className="flex items-center gap-3">
+        <ThemeCustomizer />
         {isOwnProfile && !editMode && (
-          <Button onClick={onEditToggle}>
-            <Settings className="w-4 h-4 mr-2" /> Edit Profile
+          <Button onClick={onEditToggle} className="rounded-xl font-black px-6 shadow-lg hover:shadow-primary/20 transition-all bg-foreground text-background hover:bg-foreground/90">
+            <Settings className="w-5 h-5 mr-2" /> Edit Profile
           </Button>
         )}
       </div>
@@ -618,11 +331,11 @@ function ProfileHeader({ isOwnProfile, editMode, onEditToggle }: { isOwnProfile:
 
 function MockDataWarning() {
   return (
-    <div className="col-span-full mb-6 rounded-lg border border-yellow-500/30 bg-yellow-500/10 p-4 text-yellow-200 flex items-center gap-3">
-      <AlertTriangle className="w-5 h-5" />
+    <div className="mb-8 rounded-2xl border-2 border-dashed border-amber-500/50 bg-amber-500/5 p-6 text-amber-500 flex items-start gap-4 animate-pulse">
+      <AlertTriangle className="w-8 h-8 shrink-0" />
       <div className="text-sm">
-        <p className="font-semibold">Profile Data Unavailable</p>
-        <p className="opacity-80">Could not load real profile data. You are viewing a placeholder.</p>
+        <p className="font-black uppercase tracking-widest text-xs mb-1">Developer Notice</p>
+        <p className="font-bold leading-relaxed">This profile is currently using placeholder data because the specific record wasn't found in our database.</p>
       </div>
     </div>
   );
@@ -630,39 +343,120 @@ function MockDataWarning() {
 
 function StatItem({ value, label }: { value: string | number, label: string }) {
   return (
-    <div className={styles.statItem}>
-      <span className={styles.statValue}>{value}</span>
-      <span className={styles.statLabel}>{label}</span>
+    <div className="flex flex-col items-center gap-1">
+      <span className="text-2xl font-black text-foreground tabular-nums leading-none tracking-tight">{value}</span>
+      <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground opacity-60">{label}</span>
+    </div>
+  );
+}
+
+function Milestone({ icon, label, active, color }: { icon: React.ReactNode, label: string, active: boolean, color: string }) {
+  return (
+    <div className={cn(
+      "flex flex-col items-center justify-center p-6 rounded-[2rem] border-2 transition-all duration-500",
+      active
+        ? cn("bg-card border-border/50 shadow-xl shadow-black/5 opacity-100", color)
+        : "bg-muted/10 border-transparent opacity-20 grayscale"
+    )}>
+      <div className={cn(
+        "w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-transform duration-500",
+        active && "scale-110 rotate-3"
+      )}>
+        {icon}
+      </div>
+      <span className="text-[10px] font-black uppercase tracking-widest text-center leading-tight">{label}</span>
+      {active && <div className="mt-2 w-1.5 h-1.5 rounded-full bg-current animate-pulse" />}
     </div>
   );
 }
 
 function ProfileMainContent({ profileData, formData, setFormData, editMode, activeTab, setActiveTab }: any) {
   return (
-    <div className={styles.mainContent}>
-      <nav className={styles.tabNav}>
-        <button onClick={() => setActiveTab('about')} className={cn(styles.tabButton, activeTab === 'about' && styles.active)}>About</button>
-        <button onClick={() => setActiveTab('skills')} className={cn(styles.tabButton, activeTab === 'skills' && styles.active)}>Skills</button>
+    <div className="bg-card/50 backdrop-blur-xl rounded-[3rem] p-10 border border-border shadow-2xl shadow-primary/5 h-full">
+      <nav className="flex gap-1 bg-muted/50 p-1.5 rounded-2xl border border-border/50 mb-10 w-fit">
+        <button
+          onClick={() => setActiveTab('about')}
+          className={cn(
+            "px-8 py-3 rounded-xl font-black text-sm transition-all",
+            activeTab === 'about' ? "bg-background text-primary shadow-sm" : "text-muted-foreground hover:text-foreground"
+          )}
+        >
+          About
+        </button>
+        <button
+          onClick={() => setActiveTab('skills')}
+          className={cn(
+            "px-8 py-3 rounded-xl font-black text-sm transition-all",
+            activeTab === 'skills' ? "bg-background text-primary shadow-sm" : "text-muted-foreground hover:text-foreground"
+          )}
+        >
+          Skills & Endorsements
+        </button>
       </nav>
-      
-      {activeTab === 'about' && (
-        <AboutTab bio={formData.bio} setFormData={setFormData} editMode={editMode} defaultBio={profileData.bio} />
-      )}
-      {activeTab === 'skills' && (
-        <SkillsTab skills={profileData.skills} editMode={editMode} />
-      )}
+
+      <div className="animate-fade-in">
+        {activeTab === 'about' && (
+          <div className="space-y-12">
+            <AboutTab bio={formData.bio} setFormData={setFormData} editMode={editMode} defaultBio={profileData.bio} />
+
+            <section className="space-y-6">
+              <div className="flex items-center gap-3">
+                <div className="w-1.5 h-6 bg-amber-500 rounded-full" />
+                <h2 className="text-2xl font-black text-foreground">Milestones</h2>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <Milestone
+                  icon={<Zap className="w-5 h-5" />}
+                  label="Fast Responder"
+                  active={profileData.reputation.completedSwaps > 0}
+                  color="text-primary"
+                />
+                <Milestone
+                  icon={<Trophy className="w-5 h-5" />}
+                  label="Skill Master"
+                  active={profileData.reputation.level >= 3}
+                  color="text-primary"
+                />
+                <Milestone
+                  icon={<CheckCircle className="w-5 h-5" />}
+                  label="Certified Trusted"
+                  active={profileData.reputation.averageRating >= 4.5}
+                  color="text-primary"
+                />
+              </div>
+            </section>
+          </div>
+        )}
+        {activeTab === 'skills' && (
+          <SkillsTab skills={profileData.skills} editMode={editMode} />
+        )}
+      </div>
     </div>
   );
 }
 
 function AboutTab({ bio, setFormData, editMode, defaultBio }: any) {
   return (
-    <div className={styles.tabContent}>
-      <h2 className={styles.sectionTitle}>About</h2>
+    <div className="space-y-6">
+      <div className="flex items-center gap-3">
+        <div className="w-1.5 h-6 bg-primary rounded-full" />
+        <h2 className="text-2xl font-black text-foreground">Background</h2>
+      </div>
       {editMode ? (
-        <Textarea value={bio} onChange={e => setFormData((prev: any) => ({...prev, bio: e.target.value}))} placeholder="Tell everyone about yourself..." rows={8} />
+        <Textarea
+          value={bio}
+          onChange={e => setFormData((prev: any) => ({ ...prev, bio: e.target.value }))}
+          placeholder="Tell everyone about yourself, your skills, and what you're looking to learn..."
+          rows={10}
+          className="rounded-2xl border-2 border-border focus:border-primary transition-all p-6 text-lg font-medium leading-relaxed bg-background/50"
+        />
       ) : (
-        <p className={styles.bioText}>{defaultBio || "No bio has been added yet."}</p>
+        <div className="relative">
+          <div className="absolute top-0 left-0 w-1 h-full bg-muted rounded-full" />
+          <p className="pl-8 text-xl leading-relaxed text-muted-foreground font-medium grayscale hover:grayscale-0 transition-all duration-700">
+            {defaultBio || "This user hasn't written a biography yet. Knowledge exchange is better when you know who you're trading with!"}
+          </p>
+        </div>
       )}
     </div>
   );
@@ -689,28 +483,59 @@ function SkillsTab({ skills, editMode }: { skills: ProfileData['skills'], editMo
   };
 
   return (
-    <div className={styles.tabContent}>
-      <h2 className={styles.sectionTitle}>Skills</h2>
-      <div className={styles.skillsContainer}>
-        {visibleSkills.map(skill => (
-          <div key={skill.id} className={cn(styles.skillTag, skill.source === 'ENDORSED' && styles.endorsed)}>
-            {skill.source === 'ENDORSED' && <Award size={16} />}
-            <span>{skill.name}</span>
-            {editMode && skill.source !== 'ENDORSED' && (
-              <button onClick={() => handleRemoveSkill(skill.id)} className="ml-2 rounded-full hover:bg-destructive/20 p-1">
-                <X size={14} />
-              </button>
-            )}
-          </div>
-        ))}
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-1.5 h-6 bg-emerald-500 rounded-full" />
+          <h2 className="text-2xl font-black text-foreground">Expertise</h2>
+        </div>
         {editMode && (
-          <div className="flex items-center gap-2">
-            <Input value={newSkill} onChange={e => setNewSkill(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleAddSkill()} placeholder="Add new skill..." />
-            <Button size="icon" onClick={handleAddSkill} disabled={isAddingSkill}>
-              {isAddingSkill ? <Loader2 className="w-4 h-4 animate-spin"/> : <Plus className="w-4 h-4" />}
+          <div className="flex items-center gap-2 bg-background border-2 border-border p-1.5 rounded-2xl shadow-sm group-focus-within:border-primary transition-all">
+            <Input
+              value={newSkill}
+              onChange={e => setNewSkill(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleAddSkill()}
+              placeholder="New skill..."
+              className="border-none focus-visible:ring-0 font-bold w-[200px]"
+            />
+            <Button size="sm" onClick={handleAddSkill} disabled={isAddingSkill} className="rounded-xl h-10 w-10 p-0 shadow-lg shadow-primary/10">
+              {isAddingSkill ? <Loader2 className="w-5 h-5 animate-spin" /> : <Plus className="w-5 h-5" />}
             </Button>
           </div>
         )}
+      </div>
+
+      <div className="flex flex-wrap gap-3">
+        {visibleSkills.length === 0 ? (
+          <p className="text-muted-foreground font-medium italic">No skills listed yet.</p>
+        ) : visibleSkills.map(skill => (
+          <div key={skill.id} className={cn(
+            "group relative flex items-center gap-3 px-6 py-3 rounded-2xl font-black transition-all border-2 overflow-hidden",
+            skill.source === 'ENDORSED'
+              ? "bg-emerald-500/5 text-emerald-600 border-emerald-500/20 shadow-lg shadow-emerald-500/5"
+              : "bg-background border-border text-foreground hover:border-primary/50"
+          )}>
+            {/* Background Glow for Endorsed Skills */}
+            {skill.source === 'ENDORSED' && (
+              <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-transparent animate-shimmer pointer-events-none" />
+            )}
+
+            {skill.source === 'ENDORSED' && <Award size={18} className="fill-current animate-pulse shrink-0" />}
+            <span className="relative z-10">{skill.name}</span>
+
+            {editMode && skill.source !== 'ENDORSED' && (
+              <button onClick={() => handleRemoveSkill(skill.id)} className="relative z-10 ml-2 rounded-lg bg-destructive/10 text-destructive hover:bg-destructive hover:text-white p-1.5 transition-all">
+                <X size={14} />
+              </button>
+            )}
+
+            {skill.source === 'ENDORSED' && (
+              <div className="relative z-10 flex items-center justify-center w-6 h-6 rounded-lg bg-emerald-500 text-white text-[10px] font-black shadow-md">
+                +1
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -718,10 +543,13 @@ function SkillsTab({ skills, editMode }: { skills: ProfileData['skills'], editMo
 
 function EditModeActions({ onSave, onCancel }: { onSave: () => void, onCancel: () => void }) {
   return (
-    <div className={styles.editActions}>
-      <Button variant="secondary" onClick={onCancel}>Cancel</Button>
-      <Button onClick={onSave}>Save Changes</Button>
+    <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 flex gap-4 bg-foreground p-3 rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] border border-background/10 backdrop-blur-xl animate-float">
+      <Button variant="ghost" onClick={onCancel} className="h-14 px-8 rounded-2xl font-black text-background hover:bg-background/20 hover:text-background transition-all">
+        Discard Changes
+      </Button>
+      <Button onClick={onSave} className="h-14 px-10 rounded-2xl font-black text-foreground bg-background hover:bg-primary hover:text-white transition-all shadow-xl">
+        Confirm & Save
+      </Button>
     </div>
   );
->>>>>>> 51fea53e9c3c640ee6fd7ebf5d71800b1e27a859:skill-sync/src/app/profile/[userid]/client.tsx
 }

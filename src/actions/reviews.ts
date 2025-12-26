@@ -14,10 +14,10 @@ export async function createReview(input: {
   // 1. Fetch swap details
   const swap = await prisma.swap.findUnique({
     where: { id: input.swapId },
-    include: { 
+    include: {
       proposal: {
-        include: { offeredSkills: true } 
-      } 
+        include: { offeredSkills: true }
+      }
     }
   });
 
@@ -65,7 +65,7 @@ export async function createReview(input: {
   // If Student rates Teacher >= 4, verify the skills
   if (isStudent && input.rating >= 4) {
     const skillsTaught = swap.proposal.offeredSkills;
-    
+
     for (const skill of skillsTaught) {
       // Use updateMany or careful upsert logic if the userSkill might not exist yet
       // For MVP, we assume the Teacher added the skill manually when creating the proposal.
@@ -107,7 +107,7 @@ export async function listReviewsForUser(userId: string) {
 
 // --- THIS WAS MISSING ---
 export async function getReputationStats(userId: string) {
-  const [completedSwaps, reviews] = await Promise.all([
+  const [completedSwaps, reviews, endorsements] = await Promise.all([
     prisma.swap.count({
       where: {
         OR: [{ teacherId: userId }, { studentId: userId }],
@@ -116,17 +116,59 @@ export async function getReputationStats(userId: string) {
     }),
     prisma.review.findMany({
       where: { receiverId: userId },
+      select: { rating: true }
     }),
+    prisma.userSkill.count({
+      where: {
+        userId,
+        source: "ENDORSED"
+      }
+    })
   ]);
 
   const totalReviews = reviews.length;
   const positiveReviews = reviews.filter((r) => r.rating >= 4).length;
+  const totalRating = reviews.reduce((sum, r) => sum + r.rating, 0);
+  const averageRating = totalReviews > 0 ? Number((totalRating / totalReviews).toFixed(1)) : 0;
+
+  // Creative Reputation Logic
+  // Points: Completed Swap (10) + Positive Review (5) + Endorsement (3)
+  const basePoints = (completedSwaps * 10) + (positiveReviews * 5) + (endorsements * 3);
+  const reputationPoints = Math.floor(basePoints * (1 + (averageRating / 5)));
+
+  let level = 1;
+  let title = "Newcomer";
+  let color = "text-slate-400";
+
+  if (reputationPoints >= 1000) {
+    level = 5;
+    title = "Skill Legend";
+    color = "text-amber-400";
+  } else if (reputationPoints >= 400) {
+    level = 4;
+    title = "Master Mentor";
+    color = "text-purple-400";
+  } else if (reputationPoints >= 150) {
+    level = 3;
+    title = "Swap Pro";
+    color = "text-sky-400";
+  } else if (reputationPoints >= 50) {
+    level = 2;
+    title = "Rising Talent";
+    color = "text-emerald-400";
+  }
 
   return {
     completedSwaps,
     totalReviews,
     positiveReviews,
+    averageRating,
+    totalEndorsements: endorsements,
+    reputationPoints,
+    level,
+    title,
+    color,
     battingAverage:
-      totalReviews === 0 ? null : positiveReviews / Math.max(completedSwaps, 1),
+      totalReviews === 0 ? 0 : Number((positiveReviews / totalReviews).toFixed(2)),
   };
 }

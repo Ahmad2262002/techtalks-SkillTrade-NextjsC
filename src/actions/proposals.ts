@@ -30,6 +30,8 @@ export async function createProposal(input: {
   });
 }
 
+import { getReputationStats } from "./reviews";
+
 export async function listPublicProposals(params: {
   wantSkillIds?: string[];
   haveSkillIds?: string[];
@@ -48,28 +50,27 @@ export async function listPublicProposals(params: {
   } = params;
 
   // --- SEARCH LOGIC ---
-  // If search is present, look in Title OR Description OR Owner Name OR Skills
   const searchFilter = search
     ? {
-        OR: [
-          { title: { contains: search, mode: "insensitive" as const } },
-          { description: { contains: search, mode: "insensitive" as const } },
-          { owner: { name: { contains: search, mode: "insensitive" as const } } },
-          {
-            offeredSkills: {
-              some: { name: { contains: search, mode: "insensitive" as const } },
-            },
+      OR: [
+        { title: { contains: search, mode: "insensitive" as const } },
+        { description: { contains: search, mode: "insensitive" as const } },
+        { owner: { name: { contains: search, mode: "insensitive" as const } } },
+        {
+          offeredSkills: {
+            some: { name: { contains: search, mode: "insensitive" as const } },
           },
-          {
-            neededSkills: {
-              some: { name: { contains: search, mode: "insensitive" as const } },
-            },
+        },
+        {
+          neededSkills: {
+            some: { name: { contains: search, mode: "insensitive" as const } },
           },
-        ],
-      }
+        },
+      ],
+    }
     : {};
 
-  return prisma.proposal.findMany({
+  const proposals = await prisma.proposal.findMany({
     where: {
       status: "OPEN",
       modality: modality ?? undefined,
@@ -77,25 +78,25 @@ export async function listPublicProposals(params: {
       AND: [
         wantSkillIds && wantSkillIds.length
           ? {
-              neededSkills: {
-                some: {
-                  id: {
-                    in: wantSkillIds,
-                  },
+            neededSkills: {
+              some: {
+                id: {
+                  in: wantSkillIds,
                 },
               },
-            }
+            },
+          }
           : {},
         haveSkillIds && haveSkillIds.length
           ? {
-              offeredSkills: {
-                some: {
-                  id: {
-                    in: haveSkillIds,
-                  },
+            offeredSkills: {
+              some: {
+                id: {
+                  in: haveSkillIds,
                 },
               },
-            }
+            },
+          }
           : {},
       ],
     },
@@ -116,6 +117,22 @@ export async function listPublicProposals(params: {
     take,
     skip,
   });
+
+  // Attach reputation to each owner
+  const proposalsWithReputation = await Promise.all(
+    proposals.map(async (p) => {
+      const reputation = await getReputationStats(p.ownerId);
+      return {
+        ...p,
+        owner: {
+          ...p.owner,
+          reputation,
+        },
+      };
+    })
+  );
+
+  return proposalsWithReputation;
 }
 
 export async function listMyProposals() {
@@ -139,7 +156,7 @@ export async function listMyProposals() {
 }
 
 export async function getProposalById(proposalId: string) {
-  return prisma.proposal.findUnique({
+  const proposal = await prisma.proposal.findUnique({
     where: { id: proposalId },
     include: {
       owner: true,
@@ -154,6 +171,34 @@ export async function getProposalById(proposalId: string) {
       swaps: true,
     },
   });
+
+  if (!proposal) return null;
+
+  // Attach reputation to owner
+  const ownerReputation = await getReputationStats(proposal.ownerId);
+
+  // Attach reputation to applicants
+  const applicationsWithReputation = await Promise.all(
+    proposal.applications.map(async (app) => {
+      const rep = await getReputationStats(app.applicantId);
+      return {
+        ...app,
+        applicant: {
+          ...app.applicant,
+          reputation: rep,
+        },
+      };
+    })
+  );
+
+  return {
+    ...proposal,
+    owner: {
+      ...proposal.owner,
+      reputation: ownerReputation,
+    },
+    applications: applicationsWithReputation,
+  };
 }
 
 export async function updateProposalStatus(params: {
