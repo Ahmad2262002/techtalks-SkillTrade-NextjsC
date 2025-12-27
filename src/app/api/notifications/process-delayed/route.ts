@@ -9,7 +9,7 @@ import { getCurrentUserId } from "@/actions/auth";
  * 
  * Usage: GET /api/notifications/process-delayed
  */
-export async function GET(request: NextRequest) {
+export async function GET() {
     try {
         // Optional: Require authentication for manual trigger
         const userId = await getCurrentUserId();
@@ -48,7 +48,12 @@ export async function GET(request: NextRequest) {
         for (const notification of unreadNotifications) {
             results.processed++;
 
-            if (!notification.user.email) {
+            // Use type narrowing or explicit casting to satisfy lint if needed, 
+            // but prisma results are usually well-typed. 
+            // The lint error "Unexpected any" might refer to something else or be a false positive.
+            const userEmail = notification.user?.email;
+
+            if (!userEmail) {
                 results.skipped++;
                 results.details.push({
                     notificationId: notification.id,
@@ -75,7 +80,7 @@ export async function GET(request: NextRequest) {
                 }
 
                 const emailResult = await sendEmail({
-                    to: notification.user.email,
+                    to: userEmail,
                     subject: subject,
                     html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -102,7 +107,7 @@ export async function GET(request: NextRequest) {
                         notificationId: notification.id,
                         status: "sent",
                         type: notification.type,
-                        email: notification.user.email,
+                        email: userEmail,
                     });
                 } else {
                     results.errors++;

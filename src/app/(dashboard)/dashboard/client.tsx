@@ -98,31 +98,7 @@ export default function DashboardClientContent({
     } catch (e) { toast({ variant: "destructive", title: "Error rejecting." }); }
   };
 
-  const NavLink = ({ id, label, icon: Icon, delay = 0, href, active }: any) => {
-    const isActive = active !== undefined ? active : activeTab === id;
-    const finalHref = href || `?tab=${id}`;
 
-    return (
-      <Link
-        href={finalHref}
-        onClick={() => setIsSidebarOpen(false)}
-        style={{ animationDelay: `${delay}ms` }}
-        className={cn(
-          styles.navLink,
-          isActive && styles.active,
-          styles.animateSlideInRight,
-          "group"
-        )}
-      >
-        {React.isValidElement(Icon) ? Icon : <Icon className={cn(
-          "w-5 h-5 transition-colors",
-          isActive ? "text-primary" : "group-hover:text-foreground"
-        )} />}
-        <span className={cn(isActive && "text-primary font-bold")}>{label}</span>
-        {isActive && <span className="ml-auto w-1.5 h-1.5 bg-primary rounded-full shadow-[0_0_8px_var(--color-primary)]" />}
-      </Link>
-    );
-  };
 
   const tabTitle = {
     "browse": "Explore Skills",
@@ -162,10 +138,10 @@ export default function DashboardClientContent({
 
         <nav className="flex flex-col gap-1">
           <p className={cn(styles.navGroupTitle, styles.animateSlideInRight)} style={{ animationDelay: '100ms' }}>Platform</p>
-          <NavLink href="/dashboard?tab=browse" active={activeTab === "browse"} icon={<Layers className="w-5 h-5" />} label="Browse" />
-          <NavLink href="/dashboard?tab=my-proposals" active={activeTab === "my-proposals"} icon={<Zap className="w-5 h-5" />} label="My Proposals" />
-          <NavLink href="/dashboard?tab=active-swaps" active={activeTab === "active-swaps"} icon={<MessageSquare className="w-5 h-5" />} label="Active Swaps" />
-          <NavLink href="/dashboard?tab=leaderboard" active={activeTab === "leaderboard"} icon={<Trophy className="w-5 h-5" />} label="Leaderboard" />
+          <NavLink href="/dashboard?tab=browse" active={activeTab === "browse"} icon={<Layers className="w-5 h-5" />} label="Browse" activeTab={activeTab} setIsSidebarOpen={setIsSidebarOpen} />
+          <NavLink href="/dashboard?tab=my-proposals" active={activeTab === "my-proposals"} icon={<Zap className="w-5 h-5" />} label="My Proposals" activeTab={activeTab} setIsSidebarOpen={setIsSidebarOpen} />
+          <NavLink href="/dashboard?tab=active-swaps" active={activeTab === "active-swaps"} icon={<MessageSquare className="w-5 h-5" />} label="Active Swaps" activeTab={activeTab} setIsSidebarOpen={setIsSidebarOpen} />
+          <NavLink href="/dashboard?tab=leaderboard" active={activeTab === "leaderboard"} icon={<Trophy className="w-5 h-5" />} label="Leaderboard" activeTab={activeTab} setIsSidebarOpen={setIsSidebarOpen} />
         </nav>
 
         <div className={styles.sidebarFooter}>
@@ -323,6 +299,42 @@ const ActiveSwapsTabContent = ({ applications, swaps, user, handleAccept, handle
 
 
 // --- Other Helper Components (Unchanged) ---
+
+// --- Moved NavLink outside to fix render issues ---
+const NavLink = ({ id, label, icon: Icon, delay = 0, href, active, activeTab, setIsSidebarOpen }: any) => {
+  const isActive = active !== undefined ? active : activeTab === id;
+  const finalHref = href || `?tab=${id}`;
+
+  return (
+    <Link
+      href={finalHref}
+      onClick={() => setIsSidebarOpen(false)}
+      style={{ animationDelay: `${delay}ms` }}
+      className={cn(
+        styles.navLink,
+        isActive && styles.active,
+        styles.animateSlideInRight,
+        "group"
+      )}
+    >
+      {React.isValidElement(Icon) ? (
+        Icon
+      ) : (
+        <Icon
+          className={cn(
+            "w-5 h-5 transition-colors",
+            isActive ? "text-primary" : "group-hover:text-foreground"
+          )}
+        />
+      )}
+      <span className={cn(isActive && "text-primary font-bold")}>{label}</span>
+      {isActive && (
+        <span className="ml-auto w-1.5 h-1.5 bg-primary rounded-full shadow-[0_0_8px_var(--color-primary)]" />
+      )}
+    </Link>
+  );
+};
+NavLink.displayName = "NavLink";
 
 const BrowseTabContent = ({ publicOnlyProposals }: any) => {
   // Sort proposals by reputation for spotlight

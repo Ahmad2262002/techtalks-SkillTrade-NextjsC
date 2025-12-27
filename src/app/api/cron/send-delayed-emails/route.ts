@@ -47,7 +47,8 @@ export async function GET(request: NextRequest) {
 
         for (const notification of unreadNotifications) {
             // Skip if user has no email
-            if (!notification.user.email) continue;
+            const userEmail = notification.user?.email;
+            if (!userEmail) continue;
 
             try {
                 // Determine email content based on notification type
@@ -66,7 +67,7 @@ export async function GET(request: NextRequest) {
                 }
 
                 await sendEmail({
-                    to: notification.user.email,
+                    to: userEmail,
                     subject: subject,
                     html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
