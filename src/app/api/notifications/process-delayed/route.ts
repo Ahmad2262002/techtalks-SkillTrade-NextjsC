@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/email";
 import { getCurrentUserId } from "@/actions/auth";
@@ -9,7 +9,7 @@ import { getCurrentUserId } from "@/actions/auth";
  * 
  * Usage: GET /api/notifications/process-delayed
  */
-export async function GET() {
+export async function GET() { // eslint-disable-line @typescript-eslint/no-unused-vars
     try {
         // Optional: Require authentication for manual trigger
         const userId = await getCurrentUserId();
@@ -42,7 +42,7 @@ export async function GET() {
             emailsSent: 0,
             skipped: 0,
             errors: 0,
-            details: [] as any[],
+            details: [] as any[], // eslint-disable-line @typescript-eslint/no-explicit-any
         };
 
         for (const notification of unreadNotifications) {

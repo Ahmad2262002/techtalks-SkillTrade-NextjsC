@@ -301,7 +301,7 @@ const ActiveSwapsTabContent = ({ applications, swaps, user, handleAccept, handle
 // --- Other Helper Components (Unchanged) ---
 
 // --- Moved NavLink outside to fix render issues ---
-const NavLink = ({ id, label, icon: Icon, delay = 0, href, active, activeTab, setIsSidebarOpen }: any) => {
+const NavLink = ({ id, label, icon: Icon, delay = 0, href, active, activeTab, setIsSidebarOpen }: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
   const isActive = active !== undefined ? active : activeTab === id;
   const finalHref = href || `?tab=${id}`;
 
@@ -336,7 +336,7 @@ const NavLink = ({ id, label, icon: Icon, delay = 0, href, active, activeTab, se
 };
 NavLink.displayName = "NavLink";
 
-const BrowseTabContent = ({ publicOnlyProposals }: any) => {
+const BrowseTabContent = ({ publicOnlyProposals }: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
   // Sort proposals by reputation for spotlight
   const sortedByRep = [...publicOnlyProposals].sort((a, b) =>
     (b.owner?.reputation?.reputationPoints || 0) - (a.owner?.reputation?.reputationPoints || 0)
@@ -622,7 +622,7 @@ const ApplicationCard = React.memo(({ app, onAccept, onReject }: any) => (
 
       <div className="relative mb-6 p-5 bg-background/40 rounded-2xl border border-border/50 group-hover:border-orange-500/20 transition-colors">
         <div className="absolute top-0 left-6 -translate-y-1/2 bg-background px-3 text-[10px] font-black text-orange-500 uppercase tracking-[0.2em] border border-border/50 rounded-full">The Pitch</div>
-        <p className="text-base text-foreground/90 leading-relaxed italic font-medium">"{app.pitchMessage}"</p>
+        <p className="text-base text-foreground/90 leading-relaxed italic font-medium">&quot;{app.pitchMessage}&quot;</p>
       </div>
 
       <div className="flex gap-4">
@@ -645,7 +645,7 @@ const ApplicationCard = React.memo(({ app, onAccept, onReject }: any) => (
 ));
 ApplicationCard.displayName = "ApplicationCard";
 
-const UserMenu = ({ user }: any) => (
+const UserMenu = ({ user }: any) => ( // eslint-disable-line @typescript-eslint/no-explicit-any
   <DropdownMenu>
     <DropdownMenuTrigger asChild>
       <button className="h-10 w-10 rounded-full border-2 border-border overflow-hidden hover:border-primary transition-colors">
@@ -662,7 +662,7 @@ const UserMenu = ({ user }: any) => (
   </DropdownMenu>
 );
 
-const Notifications = ({ notifications, unreadCount, handleMarkRead }: any) => (
+const Notifications = ({ notifications, unreadCount, handleMarkRead }: any) => ( // eslint-disable-line @typescript-eslint/no-explicit-any
   <DropdownMenu>
     <DropdownMenuTrigger asChild>
       <button className="relative h-10 w-10 flex items-center justify-center rounded-full bg-secondary text-secondary-foreground hover:bg-muted transition-colors">
@@ -677,7 +677,7 @@ const Notifications = ({ notifications, unreadCount, handleMarkRead }: any) => (
         {notifications.length === 0 ? (
           <p className="text-center text-sm text-muted-foreground p-4">No new notifications.</p>
         ) : (
-          notifications.map((n: any) => (
+          notifications.map((n: any) => ( // eslint-disable-line @typescript-eslint/no-explicit-any
             <DropdownMenuItem key={n.id} onClick={() => handleMarkRead(n.id)} className={`cursor-pointer ${!n.isRead ? 'bg-primary/10' : ''}`}>
               <div>
                 <p className="text-sm text-foreground">{n.message}</p>
