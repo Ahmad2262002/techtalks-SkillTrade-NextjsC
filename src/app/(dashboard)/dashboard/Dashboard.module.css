@@ -17,7 +17,8 @@
   position: sticky;
   top: 0;
   height: 100vh;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: transform;
   z-index: 40;
 }
 
@@ -176,6 +177,7 @@
   position: relative;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  will-change: transform, box-shadow, border-color;
 }
 
 .card::before {

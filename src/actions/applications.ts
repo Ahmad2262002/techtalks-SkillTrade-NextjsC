@@ -46,27 +46,23 @@ export async function createApplication(input: {
       applicantId: userId,
       pitchMessage: input.pitchMessage,
     },
+    include: {
+      applicant: true,
+    }
   });
 
-  // Get owner details to send email
-  const owner = await prisma.user.findUnique({
-    where: { id: proposal.ownerId },
+  // Create notification for owner (will be checked for delayed email after 10m)
+  await prisma.notification.create({
+    data: {
+      userId: proposal.ownerId,
+      type: "APPLICATION_RECEIVED",
+      message: `New application for "${proposal.title}" from ${application.applicant.name}`,
+      link: `/dashboard?tab=active-swaps`,
+    },
   });
-
-  if (owner && owner.email) {
-    const { sendEmail } = await import("@/lib/email");
-    await sendEmail({
-      to: owner.email,
-      subject: `New Application for: ${proposal.title}`,
-      html: `
-        <p>You have a new applicant for your proposal <strong>${proposal.title}</strong>.</p>
-        <p><strong>Pitch:</strong> ${input.pitchMessage}</p>
-        <p><a href="${process.env.NEXT_PUBLIC_APP_URL}/dashboard?tab=my-proposals">View Application</a></p>
-      `,
-    });
-  }
 
   return application;
+
 }
 
 export async function listApplicationsForProposal(proposalId: string) {

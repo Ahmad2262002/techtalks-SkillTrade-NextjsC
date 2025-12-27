@@ -497,7 +497,7 @@ const MyProposalsTabContent = ({ myProposals, handleDelete }: any) => (
   </div>
 );
 
-const ProposalCard = ({ proposal, isOwner = false, onDelete }: any) => {
+const ProposalCard = React.memo(({ proposal, isOwner = false, onDelete }: any) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalityIcon = proposal.modality === "REMOTE" ? <Zap size={14} className="text-sky-400" /> : <MapPin size={14} className="text-indigo-400" />;
   const offered = proposal.offeredSkills?.[0]?.name || proposal.offeredSkills?.[0]?.skill?.name || "N/A";
@@ -576,7 +576,8 @@ const ProposalCard = ({ proposal, isOwner = false, onDelete }: any) => {
       </div>
     </div>
   );
-};
+});
+ProposalCard.displayName = "ProposalCard";
 
 const ApplicationCard = React.memo(({ app, onAccept, onReject }: any) => (
   <div className={cn(styles.applicationCard, "group relative overflow-hidden border-none bg-card/40 backdrop-blur-md hover:bg-card/60 transition-all duration-500 rounded-[2rem] shadow-xl shadow-black/5")}>

@@ -310,7 +310,7 @@
   padding: 3.5rem 2.5rem;
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
-  will-change: transform, opacity;
+  will-change: transform, opacity, box-shadow, background;
 }
 
 .featureCard:hover {

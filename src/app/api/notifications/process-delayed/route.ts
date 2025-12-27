@@ -17,12 +17,15 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        // Find unread MESSAGE_RECEIVED notifications older than 10 minutes
+        // Synchronized Timing: 10 minutes delay for ALL unread notifications
         const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
 
         const unreadNotifications = await prisma.notification.findMany({
             where: {
-                type: "MESSAGE_RECEIVED",
+                // Support multiple notification types for delayed emails
+                type: {
+                    in: ["MESSAGE_RECEIVED", "APPLICATION_RECEIVED"]
+                },
                 isRead: false,
                 createdAt: {
                     lte: tenMinutesAgo,
@@ -56,22 +59,37 @@ export async function GET(request: NextRequest) {
             }
 
             try {
+                // Determine email content based on notification type
+                let subject = "New Notification on SkillSync";
+                let title = "SkillSync Notification";
+                let actionText = "View Notification";
+
+                if (notification.type === "MESSAGE_RECEIVED") {
+                    subject = "You have unread messages on SkillSync";
+                    title = "💬 Unread Message";
+                    actionText = "View Message";
+                } else if (notification.type === "APPLICATION_RECEIVED") {
+                    subject = "New talent application for your proposal";
+                    title = "📩 New Application";
+                    actionText = "Review Application";
+                }
+
                 const emailResult = await sendEmail({
                     to: notification.user.email,
-                    subject: "You have unread messages on SkillSync",
+                    subject: subject,
                     html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <h2 style="color: #6366f1;">💬 Unread Message</h2>
+              <h2 style="color: #6366f1;">${title}</h2>
               <p>${notification.message}</p>
-              <p>You received this message over 10 minutes ago and haven't read it yet.</p>
+              <p>This has been waiting for your attention for over 10 minutes.</p>
               <p>
                 <a href="${process.env.NEXT_PUBLIC_APP_URL}${notification.link}" 
                    style="background-color: #6366f1; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block; margin-top: 15px;">
-                  View Message
+                  ${actionText}
                 </a>
               </p>
               <p style="color: #6b7280; font-size: 12px; margin-top: 20px;">
-                You're receiving this email because you have unread messages. 
+                You're receiving this email because you have unread notifications. 
                 Log in to SkillSync to manage your notification preferences.
               </p>
             </div>
@@ -83,8 +101,8 @@ export async function GET(request: NextRequest) {
                     results.details.push({
                         notificationId: notification.id,
                         status: "sent",
+                        type: notification.type,
                         email: notification.user.email,
-                        simulated: emailResult.simulated || false,
                     });
                 } else {
                     results.errors++;
